@@ -2,15 +2,37 @@
 
 * {
   scroll-behavior: smooth;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+}
+
+/* Mobile-first base font sizing */
+@media (max-width: 640px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 13px;
+  }
 }
 
 body {
   margin: 0;
+  padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
 }
 
 /* Custom Animations */
@@ -129,6 +151,322 @@ body {
 
 .delay-300 {
   animation-delay: 300ms;
+}
+
+/* ========================================
+   RESPONSIVE UTILITIES & MEDIA QUERIES
+   ======================================== */
+
+/* Base container and padding adjustments */
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+
+/* Responsive text utilities */
+.text-responsive-xl {
+  font-size: clamp(1rem, 5vw, 1.25rem);
+}
+
+.text-responsive-2xl {
+  font-size: clamp(1.25rem, 6vw, 1.5rem);
+}
+
+.text-responsive-3xl {
+  font-size: clamp(1.5rem, 7vw, 1.875rem);
+}
+
+.text-responsive-4xl {
+  font-size: clamp(1.875rem, 8vw, 2.25rem);
+}
+
+.text-responsive-5xl {
+  font-size: clamp(2.25rem, 9vw, 3rem);
+}
+
+.text-responsive-6xl {
+  font-size: clamp(2.5rem, 10vw, 3.75rem);
+}
+
+.text-responsive-7xl {
+  font-size: clamp(3rem, 12vw, 4.5rem);
+}
+
+/* Responsive spacing utilities */
+.p-responsive {
+  padding: clamp(1rem, 5vw, 2rem);
+}
+
+.px-responsive {
+  padding-left: clamp(1rem, 5vw, 2rem);
+  padding-right: clamp(1rem, 5vw, 2rem);
+}
+
+.py-responsive {
+  padding-top: clamp(1rem, 5vw, 2rem);
+  padding-bottom: clamp(1rem, 5vw, 2rem);
+}
+
+.gap-responsive {
+  gap: clamp(1rem, 4vw, 2rem);
+}
+
+.mb-responsive {
+  margin-bottom: clamp(1rem, 5vw, 2rem);
+}
+
+.mt-responsive {
+  margin-top: clamp(1rem, 5vw, 2rem);
+}
+
+/* Flexible grid layouts */
+.grid-responsive-auto {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: clamp(1rem, 4vw, 2rem);
+}
+
+.grid-responsive-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1rem, 4vw, 2rem);
+}
+
+@media (min-width: 768px) {
+  .grid-responsive-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.grid-responsive-3 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1rem, 4vw, 2rem);
+}
+
+@media (min-width: 768px) {
+  .grid-responsive-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid-responsive-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Mobile-first responsive display */
+@media (max-width: 767px) {
+  .hide-mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .show-mobile {
+    display: none !important;
+  }
+}
+
+/* Responsive max-widths */
+.max-w-responsive {
+  max-width: min(100%, 90vw);
+}
+
+/* Responsive image handling */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Flexible flex layouts */
+.flex-responsive {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 4vw, 2rem);
+}
+
+@media (min-width: 768px) {
+  .flex-responsive {
+    flex-direction: row;
+  }
+}
+
+.flex-responsive-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1rem, 4vw, 2rem);
+}
+
+@media (min-width: 768px) {
+  .flex-responsive-center {
+    flex-direction: row;
+  }
+}
+
+/* Responsive width utilities for better mobile experience */
+.w-full-mobile {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .w-full-mobile {
+    width: auto;
+  }
+}
+
+/* Responsive aspect ratios */
+.aspect-video-responsive {
+  aspect-ratio: 16 / 9;
+}
+
+.aspect-square-responsive {
+  aspect-ratio: 1 / 1;
+}
+
+/* Landscape and portrait orientation specific styles */
+@media (orientation: landscape) and (max-height: 500px) {
+  .hide-landscape {
+    display: none !important;
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Touch device specific styles */
+@media (hover: none) and (pointer: coarse) {
+  /* Increase tap target size for touch devices */
+  button,
+  a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* High DPI / Retina display support */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Subtle enhancements for high-res displays */
+  body {
+    -webkit-font-smoothing: subpixel-antialiased;
+  }
+}
+
+/* Large screen optimizations (desktops and large tablets) */
+@media (min-width: 1920px) {
+  .scale-up-large {
+    transform: scale(1.05);
+  }
+}
+
+/* Ultra-wide screen optimizations */
+@media (min-width: 2560px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+/* Small screen optimizations - extra mobile considerations */
+@media (max-width: 360px) {
+  .reduce-padding-xs {
+    padding: 0.5rem !important;
+  }
+  
+  .reduce-margin-xs {
+    margin: 0.5rem !important;
+  }
+}
+
+/* Landscape orientation fixes for mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .reduce-height-landscape {
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+}
+
+/* Print styles for better printing experience */
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+  
+  a {
+    text-decoration: underline;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* Responsive typography with line-height adjustments */
+.text-balance {
+  text-wrap: balance;
+}
+
+.text-pretty {
+  text-wrap: pretty;
+}
+
+/* Safe area insets for notched devices */
+@supports (padding: max(0px)) {
+  body {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+}
+
+/* Focus visible for better keyboard navigation */
+:focus-visible {
+  outline: 2px solid rgba(168, 85, 247, 0.5);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 

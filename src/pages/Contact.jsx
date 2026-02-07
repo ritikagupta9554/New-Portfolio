@@ -47,8 +47,8 @@ function Contact() {
       </div>
 
       {/* Hero Section */}
-      <section className="relative py-16 px-6">
-        <div className="max-w-7xl mx-auto text-center">
+      <section className="relative py-16">
+        <div className="max-w-7xl mx-auto px-4 text-center">
           <div className="inline-block px-4 py-2 bg-purple-500/10 border border-purple-500/20 rounded-full text-purple-400 text-sm mb-6">
             Get In Touch
           </div>
@@ -65,8 +65,8 @@ function Contact() {
       </section>
 
       {/* Contact Info & Form */}
-      <section className="px-6 pb-16">
-        <div className="max-w-7xl mx-auto">
+      <section className="pb-16">
+        <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12">
             {/* Contact Information */}
             <div>
