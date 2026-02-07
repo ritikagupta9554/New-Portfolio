@@ -198,8 +198,8 @@ function Projects() {
       </div>
 
       {/* Hero Section */}
-      <section className="relative py-16 px-6">
-        <div className="max-w-7xl mx-auto text-center">
+      <section className="relative py-16">
+        <div className="max-w-7xl mx-auto px-4 text-center">
           <div className="inline-block px-4 py-2 bg-purple-500/10 border border-purple-500/20 rounded-full text-purple-400 text-sm mb-6">
             Projects
           </div>
@@ -284,8 +284,8 @@ function Projects() {
       </section>
 
       {/* Process Section */}
-      <section className="py-32 px-6 bg-slate-900/50">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-32 bg-slate-900/50">
+        <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-5xl font-bold mb-6">My Design Process</h2>
             <p className="text-xl text-slate-400 max-w-3xl mx-auto">

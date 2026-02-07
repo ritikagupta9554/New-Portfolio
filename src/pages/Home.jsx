@@ -28,9 +28,9 @@ function Home() {
       </div>
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center px-6 pt-16">
-        <div className="max-w-7xl mx-auto w-full">
-          <div className="mx-10 grid md:grid-cols-2 gap-12 items-center">
+      <section className="relative min-h-screen flex items-center justify-center pt-16">
+        <div className="max-w-7xl mx-auto w-full px-4">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-8 animate-fade-in">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-full text-purple-400 text-sm backdrop-blur-sm">
                 <span className="relative flex h-2 w-2">

@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom'
 
 function Footer() {
   return (
-    <footer className="py-12 px-6 border-t border-slate-800 bg-slate-950">
-      <div className="max-w-7xl mx-auto">
+    <footer className="py-12 border-t border-slate-800 bg-slate-950">
+      <div className="max-w-7xl mx-auto px-4">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           {/* Brand */}
           <div className="md:col-span-2">

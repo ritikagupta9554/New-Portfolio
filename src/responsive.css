@@ -1,0 +1,621 @@
+/* ============================================
+   COMPREHENSIVE RESPONSIVE ENHANCEMENTS
+   Portfolio Website - All Device Sizes
+   ============================================ */
+
+/* ============================================
+   EXTRA SMALL SCREENS (Mobile)
+   0px - 359px (Very small phones)
+   ============================================ */
+@media (max-width: 359px) {
+  body {
+    font-size: 12px;
+  }
+
+  h1 {
+    font-size: clamp(1.25rem, 7vw, 1.75rem);
+    line-height: 1.2;
+  }
+
+  h2 {
+    font-size: clamp(1rem, 5vw, 1.25rem);
+  }
+
+  .px-6 {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .py-4 {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .gap-8 {
+    gap: 1rem;
+  }
+
+  .text-sm {
+    font-size: 0.75rem;
+  }
+
+  button {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* ============================================
+   SMALL SCREENS (Mobile)
+   360px - 480px (Most phones)
+   ============================================ */
+@media (min-width: 360px) and (max-width: 480px) {
+  html {
+    font-size: 14px;
+  }
+
+  body {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: clamp(1.5rem, 8vw, 2rem);
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-size: clamp(1.25rem, 6vw, 1.5rem);
+  }
+
+  .text-5xl {
+    font-size: clamp(1.5rem, 8vw, 2.5rem);
+  }
+
+  .text-6xl {
+    font-size: clamp(1.75rem, 9vw, 2.75rem);
+  }
+
+  .text-7xl {
+    font-size: clamp(2rem, 10vw, 3rem);
+  }
+
+  /* .px-6 {
+    padding-left: 0;
+    padding-right: 0;
+  } */
+
+  .mx-10 {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .gap-8 {
+    gap: 1.5rem;
+  }
+
+  .gap-12 {
+    gap: 1.5rem;
+  }
+
+  .text-2xl {
+    font-size: 1.1rem;
+  }
+
+  .text-3xl {
+    font-size: 1.3rem;
+  }
+
+  .space-y-8 > * + * {
+    margin-top: 1.5rem;
+  }
+
+  /* Responsive font for paragraphs */
+  p {
+    font-size: clamp(0.875rem, 2.5vw, 1rem);
+    line-height: 1.6;
+  }
+
+  /* Better spacing for skill badges */
+  .flex.flex-wrap.gap-3 {
+    gap: 0.75rem;
+  }
+
+  .flex.flex-wrap.gap-3 span {
+    font-size: 0.75rem;
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+/* ============================================
+   MEDIUM-SMALL SCREENS (Large phones, small tablets)
+   481px - 639px
+   ============================================ */
+@media (min-width: 481px) and (max-width: 639px) {
+  h1 {
+    font-size: clamp(1.75rem, 8vw, 2.25rem);
+  }
+
+  h2 {
+    font-size: clamp(1.5rem, 6vw, 1.875rem);
+  }
+
+  .text-5xl {
+    font-size: clamp(2rem, 8vw, 2.75rem);
+  }
+
+  /* .px-6 {
+    padding-left: 0;
+    padding-right: 0;
+  } */
+
+  .grid.md\\:grid-cols-2 {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .gap-12 {
+    gap: 2rem;
+  }
+
+  /* Button sizing for mid-size screens */
+  /* .px-8 {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  } */
+
+  .py-4 {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+}
+
+/* ============================================
+   TABLET SCREENS
+   640px - 1023px (Tablets)
+   ============================================ */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 7vw, 3rem);
+    margin-bottom: 1.5rem;
+  }
+
+  h2 {
+    font-size: clamp(1.5rem, 5vw, 2rem);
+  }
+
+  .text-5xl {
+    font-size: clamp(2.5rem, 8vw, 3.5rem);
+  }
+
+  .grid.md\\:grid-cols-2 {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .grid.md\\:grid-cols-3 {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .grid.md\\:grid-cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .hidden.md\\:flex {
+    display: flex !important;
+  }
+
+  .md\\:hidden {
+    display: none;
+  }
+
+  .gap-16 {
+    gap: 2rem;
+  }
+
+  /* Optimize images for tablets */
+  .aspect-square {
+    aspect-ratio: 1 / 1;
+  }
+
+  .aspect-\\video {
+    aspect-ratio: 4 / 5;
+  }
+}
+
+/* ============================================
+   DESKTOP SCREENS
+   1024px - 1279px (Small desktops)
+   ============================================ */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .container {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .max-w-7xl {
+    max-width: 1024px;
+  }
+
+  .grid.md\\:grid-cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .grid.md\\:grid-cols-4 {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .gap-12 {
+    gap: 2rem;
+  }
+
+  .gap-16 {
+    gap: 2.5rem;
+  }
+}
+
+/* ============================================
+   LARGE DESKTOP SCREENS
+   1280px - 1919px (Large desktops)
+   ============================================ */
+@media (min-width: 1280px) and (max-width: 1919px) {
+  .container {
+    max-width: 1280px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .max-w-7xl {
+    max-width: 1280px;
+  }
+
+  h1 {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+  }
+
+  .grid.md\\:grid-cols-4 {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+}
+
+/* ============================================
+   EXTRA LARGE SCREENS (4K)
+   1920px and above
+   ============================================ */
+@media (min-width: 1920px) {
+  html {
+    font-size: 18px;
+  }
+
+  .container {
+    max-width: 1536px;
+  }
+
+  .max-w-7xl {
+    max-width: 1536px;
+  }
+
+  h1 {
+    font-size: clamp(3rem, 5vw, 4.5rem);
+  }
+
+  .text-5xl {
+    font-size: 4rem;
+  }
+
+  .text-6xl {
+    font-size: 4.5rem;
+  }
+
+  .text-7xl {
+    font-size: 5rem;
+  }
+
+  .gap-8 {
+    gap: 2.5rem;
+  }
+
+  .gap-12 {
+    gap: 3rem;
+  }
+
+  .gap-16 {
+    gap: 3.5rem;
+  }
+
+  /* Increase spacious feeling on large screens */
+  /* .px-6 {
+    padding-left: 0;
+    padding-right: 0;
+  } */
+
+  .py-16 {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+}
+
+/* ============================================
+   ORIENTATION-SPECIFIC STYLES
+   ============================================ */
+
+/* Landscape orientation on small screens */
+@media (max-width: 768px) and (orientation: landscape) {
+  .min-h-screen {
+    min-height: auto;
+  }
+
+  .mt-10 {
+    margin-top: 0;
+  }
+
+  h1 {
+    font-size: clamp(1.25rem, 5vw, 1.75rem);
+  }
+
+  .flex.flex-col {
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+}
+
+/* Portrait orientation optimizations */
+@media (orientation: portrait) {
+  .aspect-video {
+    aspect-ratio: 4 / 5;
+  }
+}
+
+/* ============================================
+   RETINA / HIGH DPI DISPLAY OPTIMIZATIONS
+   ============================================ */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Sharper text on high-res devices */
+  body {
+    -webkit-font-smoothing: subpixel-antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Ensure borders are crisp */
+  .border {
+    border-width: 1px;
+  }
+}
+
+/* ============================================
+   PRINT STYLESHEET
+   ============================================ */
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  .no-print,
+  .hide-mobile,
+  nav,
+  footer {
+    display: none !important;
+  }
+
+  body {
+    font-size: 12pt;
+    line-height: 1.5;
+  }
+
+  .page-break {
+    page-break-after: always;
+  }
+}
+
+/* ============================================
+   REDUCED MOTION PREFERENCES
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================
+   DARK MODE / LIGHT MODE SUPPORT
+   ============================================ */
+@media (prefers-color-scheme: dark) {
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+}
+
+/* ============================================
+   TOUCH DEVICE OPTIMIZATIONS
+   ============================================ */
+@media (hover: none) and (pointer: coarse) {
+  /* Increase interactive element size for touch */
+  button,
+  a,
+  .btn {
+    min-height: 48px;
+    min-width: 48px;
+    padding: 0.75rem 1.5rem;
+  }
+
+  /* Remove hover effects on touch devices */
+  a:hover,
+  button:hover {
+    transform: none;
+  }
+
+  /* Add active state instead */
+  a:active,
+  button:active {
+    opacity: 0.8;
+  }
+}
+
+/* ============================================
+   NOTCHED DEVICE SUPPORT (Phones with notches)
+   ============================================ */
+@supports (padding: max(0px)) {
+  body {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+
+  .px-6 {
+    padding-left: max(1.5rem, env(safe-area-inset-left));
+    padding-right: max(1.5rem, env(safe-area-inset-right));
+  }
+}
+
+/* ============================================
+   SMOOTH SCROLLING SUPPORT
+   ============================================ */
+@supports (scroll-behavior: smooth) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* ============================================
+   CONTAINER QUERIES (Modern browsers)
+   ============================================ */
+@supports (container-type: inline-size) {
+  .container-responsive {
+    container-type: inline-size;
+  }
+
+  @container (min-width: 400px) {
+    .card-responsive {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @container (min-width: 700px) {
+    .card-responsive {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY ENHANCEMENTS
+   ============================================ */
+
+/* High contrast mode support */
+@media (prefers-contrast: more) {
+  * {
+    border-width: 1px;
+  }
+
+  .border {
+    border-color: currentColor;
+  }
+}
+
+/* Focus visible for keyboard navigation */
+:focus-visible {
+  outline: 3px solid #a855f7;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Better link focus states */
+a:focus-visible {
+  outline: 2px dashed #a855f7;
+  outline-offset: 4px;
+}
+
+/* ============================================
+   UTILITY CLASSES FOR RESPONSIVE DESIGN
+   ============================================ */
+
+/* Flexible margins and padding */
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.my-auto {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+/* Responsive display utilities */
+.block {
+  display: block;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.flex {
+  display: flex;
+}
+
+.grid {
+  display: grid;
+}
+
+/* Safe area support class */
+.safe-area-padding {
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Responsive image wrapper */
+.img-responsive {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Prevent layout shift */
+.no-layout-shift {
+  contain: layout style paint;
+}
+
+/* Optimize performance on lower-end devices */
+@media (prefers-reduced-motion: no-preference) and (min-device-pixel-ratio: 1) {
+  .animation-enabled {
+    animation: auto;
+  }
+}

@@ -27,8 +27,8 @@ function About() {
       </div>
 
       {/* Hero Section */}
-      <section className="relative py-16 px-6">
-        <div className="max-w-7xl mx-auto">
+      <section className="relative py-16">
+        <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div className="relative group">
               <div className="w-full aspect-[4/5] bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500 opacity-20 blur-3xl absolute inset-0 group-hover:opacity-30 transition-opacity"></div>
@@ -82,9 +82,9 @@ function About() {
       </section>
 
       {/* Philosophy Section */}
-      <section className="relative py-16 px-6">
+      <section className="relative py-16">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-900/50 to-transparent" />
-        <div className="relative max-w-7xl mx-auto">
+        <div className="relative max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
             <span className="inline-block px-4 py-2 bg-purple-500/10 border border-purple-500/20 rounded-full text-purple-400 text-sm mb-6">
               Philosophy
@@ -127,8 +127,8 @@ function About() {
       </section>
 
       {/* Experience & Approach */}
-      <section className="relative py-16 px-6">
-        <div className="max-w-7xl mx-auto">
+      <section className="relative py-16">
+        <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-16">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold mb-8">
@@ -291,7 +291,7 @@ function About() {
                 <div className="flex-1">
                   <div className="flex items-start justify-between mb-2">
                     <h3 className="text-2xl font-bold group-hover:text-purple-400 transition-colors">UI/UX Designer</h3>
-                    <span className="text-slate-400 text-sm">5 Months</span>
+                    <span className="text-slate-400 text-sm">6 Months</span>
                   </div>
                   <p className="text-purple-400 mb-3 font-medium">Yogi Foundation • Gorakhpur, UP (Work From Office)</p>
                   <ul className="text-slate-400 leading-relaxed space-y-2 list-disc list-inside">
