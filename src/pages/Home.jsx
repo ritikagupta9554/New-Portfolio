@@ -53,7 +53,7 @@ function Home() {
               </div>
 
               <p className="text-xl text-slate-300 leading-relaxed">
-                I design and build <span className="text-purple-400 font-semibold">beautiful, modern web applications</span> with 9 months of combined experience in UI/UX design and frontend development, creating seamless user experiences from concept to code.
+                I design and build <span className="text-purple-400 font-semibold">beautiful, modern web applications</span> with 1+ Year of combined experience in UI/UX design and frontend development, creating seamless user experiences from concept to code.
               </p>
 
               <div className="flex flex-wrap gap-3 text-sm">
