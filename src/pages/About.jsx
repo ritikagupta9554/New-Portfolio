@@ -55,17 +55,17 @@ function About() {
                 </span>
               </h1>
               <p className="text-xl text-slate-300 leading-relaxed">
-                I'm a passionate <span className="text-purple-400 font-semibold">UI/UX Designer & Frontend Developer</span> with 9 months of combined professional experience designing and building modern, responsive web applications. Based in Gorakhpur, UP, India, I bridge the gap between design and development, creating seamless user experiences from concept to code.
+                I'm a passionate <span className="text-purple-400 font-semibold">UI/UX Designer & Frontend Developer</span> with 1 year of professional experience designing and building modern, responsive web applications. Based in Gorakhpur, UP, India, I bridge the gap between design and development, creating seamless user experiences from concept to code.
               </p>
               <p className="text-lg text-slate-400 leading-relaxed">
-                I specialize in UI/UX design using Figma and Canva, and bringing those designs to life with React and modern CSS frameworks. My focus is on creating <span className="text-pink-400 font-semibold">beautiful, user-centric interfaces</span> backed by clean, maintainable code.
+                Over the past year, I've worked across healthcare, education, corporate, and personal projects—designing comprehensive design systems in Figma and implementing them with React and Tailwind CSS. My focus is on creating <span className="text-pink-400 font-semibold">beautiful, user-centric interfaces</span> backed by clean, maintainable code that solves real-world problems.
               </p>
               
               {/* Stats */}
               <div className="grid grid-cols-3 gap-4 pt-4">
                 <div className="text-center p-4 bg-slate-800/30 rounded-xl border border-slate-700/50 backdrop-blur-sm">
-                  <div className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">9</div>
-                  <div className="text-sm text-slate-400 mt-1">Months</div>
+                  <div className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">1</div>
+                  <div className="text-sm text-slate-400 mt-1">Year</div>
                 </div>
                 <div className="text-center p-4 bg-slate-800/30 rounded-xl border border-slate-700/50 backdrop-blur-sm">
                   <div className="text-3xl font-bold bg-gradient-to-r from-pink-400 to-orange-500 bg-clip-text text-transparent">15+</div>
@@ -314,7 +314,7 @@ function About() {
                 <div className="flex-1">
                   <div className="flex items-start justify-between mb-2">
                     <h3 className="text-2xl font-bold group-hover:text-pink-400 transition-colors">UI/UX Designer & Frontend Developer</h3>
-                    <span className="text-slate-400 text-sm">3 Months</span>
+                    <span className="text-slate-400 text-sm">6 Months</span>
                   </div>
                   <p className="text-pink-400 mb-3 font-medium">DigiQuest Consultancy Services Pvt Ltd • India (Work From Office)</p>
                   <ul className="text-slate-400 leading-relaxed space-y-2 list-disc list-inside">

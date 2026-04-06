@@ -53,7 +53,7 @@ function Home() {
               </div>
 
               <p className="text-xl text-slate-300 leading-relaxed">
-                I design and build <span className="text-purple-400 font-semibold">beautiful, modern web applications</span> with  1+ Year of combined experience in UI/UX design and frontend development, creating seamless user experiences from concept to code.
+                Over the past year, I've developed diverse projects spanning <span className="text-purple-400 font-semibold">UI/UX design and Frontend development</span>. I design pixel-perfect interfaces in Figma and bring them to life with React, creating seamless user experiences from concept to code.
               </p>
 
               <div className="flex flex-wrap gap-3 text-sm">
@@ -133,7 +133,7 @@ function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
-              { number: '9', label: 'Months Experience', description: 'Combined UI/UX design and development', gradient: 'from-purple-400 to-pink-500', delay: 'delay-0' },
+              { number: '1+', label: 'Year Experience', description: 'Combined UI/UX design and development', gradient: 'from-purple-400 to-pink-500', delay: 'delay-0' },
               { number: '15+', label: 'Projects Completed', description: 'Design and development projects', gradient: 'from-blue-400 to-cyan-500', delay: 'delay-100' },
               { number: '3', label: 'Companies', description: 'Professional experience across organizations', gradient: 'from-green-400 to-emerald-500', delay: 'delay-200' },
               { number: '10+', label: 'Technologies', description: 'Design tools and frontend frameworks', gradient: 'from-orange-400 to-red-500', delay: 'delay-300' }
