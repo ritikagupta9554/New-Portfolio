@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react'
 
+import BNews from "./projectImages/BNews.png"
+import FinFlow from "./projectImages/FinFlow.png"
+import veriqos from "./projectImages/veriqos.png"
+
 function Projects() {
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
@@ -20,6 +24,7 @@ function Projects() {
       description: 'Modern portfolio with smooth animations',
       fullDescription: 'Built a responsive personal portfolio website using React and Tailwind CSS. Features smooth scroll animations, dark theme, project showcase, and contact form. Fully responsive across all devices.',
       color: 'bg-gradient-to-br from-purple-400 to-pink-500',
+      image: null,
       tags: ['React', 'Tailwind CSS', 'Responsive', 'Animations'],
       duration: '2 weeks',
       client: 'Personal Project',
@@ -33,6 +38,7 @@ function Projects() {
   description: 'Online library management and book tracking',
   fullDescription: 'Developed a Library Management System using React to manage books, categories, and availability. Features include book listing, search and filter functionality, and a responsive UI for smooth user interaction.',
   color: 'bg-gradient-to-br from-indigo-400 to-purple-500',
+  image: null,
   tags: ['React', 'JavaScript', 'CSS', 'Responsive Design'],
   duration: '2 weeks',
   client: 'Personal Project',
@@ -47,6 +53,7 @@ function Projects() {
   description: 'Online veterinary consultation and appointment platform',
   fullDescription: 'Designed and developed a responsive web application for online veterinary consultations. Created complete UI/UX design in Figma and implemented it using React. Features appointment booking interfaces, service listings, and interactive UI components with focus on usability and performance.',
   color: 'bg-gradient-to-br from-emerald-400 to-teal-500',
+  image: null,
   tags: ['Figma', 'UI/UX Design', 'React', 'JavaScript', 'CSS'],
   duration: '3 months',
   client: 'DigiQuest Consultancy Services Pvt. Ltd.',
@@ -61,6 +68,7 @@ function Projects() {
   description: 'Modern hospital website UI/UX design',
   fullDescription: 'Designed comprehensive UI/UX for GreenLand Hospital website using Figma. Created user-friendly interfaces for patient appointment booking, doctor profiles, services showcase, and contact information. Focused on accessibility and clean, medical-appropriate design aesthetics.',
   color: 'bg-gradient-to-br from-green-400 to-emerald-500',
+  image: null,
   tags: ['Figma', 'UI/UX Design', 'Healthcare', 'Wireframing'],
   duration: '3 months',
   client: 'DigiQuest Consultancy Services Pvt. Ltd.',
@@ -75,6 +83,7 @@ function Projects() {
   description: 'Corporate portfolio website design',
   fullDescription: 'Designed a complete portfolio website for Veriqos Technologies using Figma. Created modern, professional layouts showcasing company services, projects, team, and contact sections. Developed comprehensive design system with consistent branding and responsive components.',
   color: 'bg-gradient-to-br from-blue-400 to-cyan-500',
+  image: veriqos,
   tags: ['Figma', 'UI/UX Design', 'Corporate Design', 'Design System'],
   duration: '1 month',
   client: 'Whizlancer Infotech Pvt. Ltd.',
@@ -89,6 +98,7 @@ function Projects() {
   description: 'Foundation website and promotional materials',
   fullDescription: 'Designed the official website for Vishwa Hindu MahaSangh using Figma and Canva. Created various promotional posters, social media graphics, and marketing materials for foundation events. Established consistent visual identity across all digital and print media.',
   color: 'bg-gradient-to-br from-orange-400 to-red-500',
+  image: null,
   tags: ['Figma', 'Canva', 'UI/UX Design', 'Graphic Design', 'Branding'],
   duration: '2 weeks',
   client: 'Yogi Foundation',
@@ -96,18 +106,34 @@ function Projects() {
   url: 'https://www.figma.com/design/aOm6SXOJ1pCIYDbvB4AiUh/%E0%A4%B5%E0%A4%BF%E0%A4%B6%E0%A5%8D%E0%A4%B5-%E0%A4%B9%E0%A4%BF%E0%A4%A8%E0%A5%8D%E0%A4%A6%E0%A5%82-%E0%A4%AE%E0%A4%B9%E0%A4%BE%E0%A4%B8%E0%A4%82%E0%A4%98?node-id=98-295&t=PURzfExwBGTgRPsM-1'
 },
 
-    // {
-    //   id: 4,
-    //   title: 'Task Management App',
-    //   category: 'web',
-    //   description: 'Organize your daily tasks',
-    //   fullDescription: 'Built a to-do list application with React featuring add, edit, delete, and mark complete functionality. Implements local storage for data persistence and drag-and-drop for task reordering.',
-    //   color: 'bg-gradient-to-br from-green-400 to-emerald-500',
-    //   tags: ['React', 'Local Storage', 'Drag & Drop'],
-    //   duration: '1 week',
-    //   client: 'Personal Project',
-    //   year: '2025'
-    // },
+   {
+  id: 7,
+  title: 'FinFlow - Personal Finance App',
+  category: 'ui/ux',
+  description: 'Modern finance app UI for smart money management',
+  fullDescription: 'Designed a complete personal finance mobile app in Figma focusing on clean UI, intuitive navigation, and user-friendly experience. Created wireframes, user flows, and high-fidelity prototypes. Key features include expense tracking, budget management, recurring payments, and analytics dashboard. Applied design system, color hierarchy, and responsive layouts to ensure consistency and usability.',
+  color: 'bg-gradient-to-br from-indigo-400 to-purple-500',
+  image: FinFlow,
+  tags: ['Figma', 'UI Design', 'UX Research', 'Prototyping', 'Design System'],
+  duration: '1-2 weeks',
+  client: 'Personal Project',
+  year: '2026',
+  url : "https://www.figma.com/proto/U5ca6D5xBZChSXml2N67MB/FinFlow?node-id=1-2&p=f&t=LAF6GzE26xdGxU8S-0&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A2&show-proto-sidebar=1"
+},
+{
+  id: 8,
+  title: 'BNews - News App UI',
+  category: 'ui/ux',
+  description: 'Clean and fast news reading experience',
+  fullDescription: 'Designed a modern news mobile app in Figma focused on readability and smooth user experience. Created wireframes, user flows, and high-fidelity UI screens. Key features include category-based news browsing, trending highlights, search functionality, and personalized feed. Emphasized typography, spacing, and visual hierarchy to enhance content consumption and user engagement.',
+  color: 'bg-gradient-to-br from-slate-800 to-slate-900',
+  image: BNews,
+  tags: ['Figma', 'UI Design', 'UX Design', 'Prototyping', 'Typography'],
+  duration: '1-2 weeks',
+  client: 'Personal Project',
+  year: '2026',
+  url: 'https://www.figma.com/proto/h4JzpUYZXYJCKhBCLso77t/BNews?node-id=2002-389&t=wFMEVS1ZF8pjNGDn-0&scaling=scale-down&content-scaling=fixed&page-id=0%3A1'
+},
     // {
     //   id: 5,
     //   title: 'Restaurant Landing Page',
@@ -133,12 +159,13 @@ function Projects() {
     //   year: '2025'
     // },
    {
-  id: 8,
+  id: 9,
   title: 'Learn-X – Online Library Management Website',
   category: 'web',
   description: 'Online library management system',
   fullDescription: 'Developed an Online Library Management Website using HTML, CSS, and JavaScript. Features include book listing, category-wise organization, search functionality, and a responsive, user-friendly interface.',
   color: 'bg-gradient-to-br from-amber-400 to-orange-500',
+  image: null,
   tags: ['HTML', 'CSS', 'JavaScript',],
   duration: '2 weeks',
   client: 'Personal Project',
@@ -243,7 +270,10 @@ function Projects() {
                 onClick={() => window.open(project.url, '_blank', 'noopener,noreferrer')}
               >
                 <div className="relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-800/50 backdrop-blur-xl hover:border-slate-700 transition-all hover:scale-105">
-                  <div className={`w-full aspect-[4/3] ${project.color} relative`}>
+                  <div 
+                  className={`w-full aspect-[4/3] relative ${!project.image ? project.color : 'bg-slate-950'}`}
+                  style={project.image ? { backgroundImage: `url(${project.image})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}
+                >
                     <div className="absolute inset-0 bg-slate-950/0 group-hover:bg-slate-950/20 transition-all"></div>
                     <div className="absolute top-4 right-4 px-3 py-1 bg-slate-950/80 backdrop-blur-sm rounded-full text-xs">
                       {project.year}
