@@ -1,520 +1,385 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import ScrollReveal from '../components/ScrollReveal'
+import BNews from './projectImages/BNews.png'
+import FinFlow from './projectImages/FinFlow.png'
+import veriqos from './projectImages/veriqos.png'
 
-import BNews from "./projectImages/BNews.png"
-import FinFlow from "./projectImages/FinFlow.png"
-import veriqos from "./projectImages/veriqos.png"
+function ProjectCard({ project, index }) {
+  const ref = useRef(null)
+  const categoryLabel = {
+    web: 'Web Dev',
+    design: 'UI/UX Design',
+    'ui/ux': 'App UI',
+  }[project.category] || project.category
+
+  return (
+    <div
+      ref={ref}
+      style={{
+        background: '#0a0a0a',
+        border: '1px solid var(--border-subtle)',
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+        cursor: 'pointer',
+        transition: 'border-color 0.3s ease',
+      }}
+      onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(201,169,110,0.28)' }}
+      onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border-subtle)' }}
+      onClick={() => window.open(project.url, '_blank', 'noopener,noreferrer')}
+      role="button"
+      aria-label={`View ${project.title}`}
+    >
+      {/* Image / placeholder */}
+      <div style={{ aspectRatio: '16/10', position: 'relative', overflow: 'hidden', background: '#111' }}>
+        {project.image ? (
+          <img
+            src={project.image}
+            alt={project.title}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
+            onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.03)' }}
+            onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)' }}
+          />
+        ) : (
+          <div style={{
+            width: '100%', height: '100%',
+            background: project.gradient || '#1a1a1a',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+            <span style={{ fontSize: '2.5rem' }}>{project.emoji || '💻'}</span>
+          </div>
+        )}
+
+        {/* Overlay with link icon */}
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: 'linear-gradient(to top, rgba(10,10,10,0.5) 0%, transparent 60%)',
+        }} />
+        <div style={{
+          position: 'absolute', top: 12, right: 12,
+          background: 'rgba(10,10,10,0.8)',
+          border: '1px solid rgba(201,169,110,0.15)',
+          padding: '3px 10px',
+          fontSize: '10px',
+          fontFamily: 'var(--font-mono)',
+          color: 'var(--text-muted)',
+          letterSpacing: '0.06em',
+        }}>
+          {project.year}
+        </div>
+        <div style={{
+          position: 'absolute', bottom: 12, right: 12,
+          width: 30, height: 30,
+          background: 'var(--accent)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <svg width="12" height="12" fill="none" stroke="#0a0a0a" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        </div>
+      </div>
+
+      {/* Card body */}
+      <div style={{ padding: '24px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+          <span style={{ fontSize: '10px', fontFamily: 'var(--font-mono)', color: 'var(--accent)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+            {categoryLabel}
+          </span>
+          <span style={{ color: 'var(--border-subtle)', fontSize: '10px' }}>·</span>
+          <span style={{ fontSize: '10px', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', letterSpacing: '0.06em' }}>
+            {project.duration}
+          </span>
+        </div>
+
+        <h3 style={{
+          fontFamily: 'var(--font-display)',
+          fontSize: '1.15rem', fontWeight: 500, marginBottom: 10,
+          color: 'var(--text-primary)',
+          letterSpacing: '-0.01em',
+        }}>
+          {project.title}
+        </h3>
+
+        <p style={{ color: 'var(--text-secondary)', fontSize: '13px', lineHeight: 1.7, marginBottom: 18, flex: 1 }}>
+          {project.fullDescription}
+        </p>
+
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
+          {project.tags.map((tag) => (
+            <span key={tag} className="badge" style={{ fontSize: '10px', padding: '3px 8px' }}>{tag}</span>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
 
 function Projects() {
   const [selectedCategory, setSelectedCategory] = useState('all')
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY })
-    }
-    window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
-  }, [])
 
   const projects = [
     {
       id: 1,
+      title: 'Balu Riders Website & Branding',
+      category: 'web',
+      fullDescription: 'Designed and delivered the complete brand identity and website UI/UX in Figma. Built a scalable design system and created all visual assets for digital and print media.',
+      gradient: 'linear-gradient(135deg, #1a1208, #181006)',
+      emoji: '🏍️',
+      tags: ['Figma', 'UI/UX', 'Branding', 'Design System'],
+      duration: 'Freelance', client: 'Balu Riders', year: '2026', url: 'https://baluriders.com',
+    },
+    {
+      id: 2,
       title: 'Personal Portfolio Website',
       category: 'web',
-      description: 'Modern portfolio with smooth animations',
-      fullDescription: 'Built a responsive personal portfolio website using React and Tailwind CSS. Features smooth scroll animations, dark theme, project showcase, and contact form. Fully responsive across all devices.',
-      color: 'bg-gradient-to-br from-purple-400 to-pink-500',
-      image: null,
+      fullDescription: 'Responsive personal portfolio built with React. Features scroll animations, dark theme, project showcase, and a working contact form via EmailJS.',
+      gradient: 'linear-gradient(135deg, #1a1a1a, #2a2a2a)',
+      emoji: '🚀',
       tags: ['React', 'Tailwind CSS', 'Responsive', 'Animations'],
-      duration: '2 weeks',
-      client: 'Personal Project',
-      year: '2025',
-      url: '#'
+      duration: '2 weeks', client: 'Personal Project', year: '2025', url: '#',
     },
-  {
-  id: 2,
-  title: 'LibraryHub',
-  category: 'web',
-  description: 'Online library management and book tracking',
-  fullDescription: 'Developed a Library Management System using React to manage books, categories, and availability. Features include book listing, search and filter functionality, and a responsive UI for smooth user interaction.',
-  color: 'bg-gradient-to-br from-indigo-400 to-purple-500',
-  image: null,
-  tags: ['React', 'JavaScript', 'CSS', 'Responsive Design'],
-  duration: '2 weeks',
-  client: 'Personal Project',
-  year: '2025',
-  url: 'https://library-hub-web.netlify.app/'
-},
-
     {
-  id: 3,
-  title: 'Vet Consultation Online',
-  category: 'web',
-  description: 'Online veterinary consultation and appointment platform',
-  fullDescription: 'Designed and developed a responsive web application for online veterinary consultations. Created complete UI/UX design in Figma and implemented it using React. Features appointment booking interfaces, service listings, and interactive UI components with focus on usability and performance.',
-  color: 'bg-gradient-to-br from-emerald-400 to-teal-500',
-  image: null,
-  tags: ['Figma', 'UI/UX Design', 'React', 'JavaScript', 'CSS'],
-  duration: '3 months',
-  client: 'DigiQuest Consultancy Services Pvt. Ltd.',
-  year: '2025',
-  url: 'https://www.figma.com/design/5AH8d659NJWQbqsyhdZXq0/DigiVet?node-id=0-1&t=PURzfExwBGTgRPsM-1'
-},
-
+      id: 3,
+      title: 'FinFlow – Personal Finance Mobile App',
+      category: 'ui/ux',
+      fullDescription: 'Designed a modern personal finance mobile app focusing on clean UI and intuitive UX. Created wireframes and high-fidelity prototypes for expense tracking and budgeting.',
+      image: FinFlow,
+      tags: ['Figma', 'Mobile UI', 'Prototyping', 'Design System'],
+      duration: 'Personal', client: 'Portfolio', year: '2026', url: '#',
+    },
     {
-  id: 4,
-  title: 'GreenLand Hospital',
-  category: 'design',
-  description: 'Modern hospital website UI/UX design',
-  fullDescription: 'Designed comprehensive UI/UX for GreenLand Hospital website using Figma. Created user-friendly interfaces for patient appointment booking, doctor profiles, services showcase, and contact information. Focused on accessibility and clean, medical-appropriate design aesthetics.',
-  color: 'bg-gradient-to-br from-green-400 to-emerald-500',
-  image: null,
-  tags: ['Figma', 'UI/UX Design', 'Healthcare', 'Wireframing'],
-  duration: '3 months',
-  client: 'DigiQuest Consultancy Services Pvt. Ltd.',
-  year: '2025',
-  url: 'https://www.figma.com/design/r4aHEbkxxACEDLMWK080KC/Green-Land-Hospital?node-id=0-1&t=xamPXbg2FBCZMWuQ-1'
-},
-
+      id: 4,
+      title: 'LibraryHub',
+      category: 'web',
+      fullDescription: 'Library Management System in React — book listing, search/filter functionality, category management, and a fully responsive UI.',
+      gradient: 'linear-gradient(135deg, #141414, #1e1e1e)',
+      emoji: '📚',
+      tags: ['React', 'JavaScript', 'CSS', 'Responsive'],
+      duration: '2 weeks', client: 'Personal Project', year: '2025', url: 'https://library-hub-web.netlify.app/',
+    },
     {
-  id: 5,
-  title: 'Veriqos Technologies Portfolio',
-  category: 'design',
-  description: 'Corporate portfolio website design',
-  fullDescription: 'Designed a complete portfolio website for Veriqos Technologies using Figma. Created modern, professional layouts showcasing company services, projects, team, and contact sections. Developed comprehensive design system with consistent branding and responsive components.',
-  color: 'bg-gradient-to-br from-blue-400 to-cyan-500',
-  image: veriqos,
-  tags: ['Figma', 'UI/UX Design', 'Corporate Design', 'Design System'],
-  duration: '1 month',
-  client: 'Whizlancer Infotech Pvt. Ltd.',
-  year: '2025',
-  url: 'https://www.figma.com/design/1I3ID4GaU6RbVmnkyNe6Wo/Veriqos?node-id=0-1&t=4v3Q4NQtmLDbic9w-1'
-},
-
+      id: 5,
+      title: 'BNews – News Mobile App UI',
+      category: 'ui/ux',
+      fullDescription: 'Modern news mobile app focused on readability and smooth user experience. Category-based news browsing, trending highlights, search functionality, and personalized feed.',
+      image: BNews,
+      tags: ['Figma', 'UI Design', 'Typography', 'Mobile App'],
+      duration: 'Personal', client: 'Portfolio', year: '2026', url: '#',
+    },
     {
-  id: 6,
-  title: 'Vishwa Hindu MahaSangh Website',
-  category: 'design',
-  description: 'Foundation website and promotional materials',
-  fullDescription: 'Designed the official website for Vishwa Hindu MahaSangh using Figma and Canva. Created various promotional posters, social media graphics, and marketing materials for foundation events. Established consistent visual identity across all digital and print media.',
-  color: 'bg-gradient-to-br from-orange-400 to-red-500',
-  image: null,
-  tags: ['Figma', 'Canva', 'UI/UX Design', 'Graphic Design', 'Branding'],
-  duration: '2 weeks',
-  client: 'Yogi Foundation',
-  year: '2025',
-  url: 'https://www.figma.com/design/aOm6SXOJ1pCIYDbvB4AiUh/%E0%A4%B5%E0%A4%BF%E0%A4%B6%E0%A5%8D%E0%A4%B5-%E0%A4%B9%E0%A4%BF%E0%A4%A8%E0%A5%8D%E0%A4%A6%E0%A5%82-%E0%A4%AE%E0%A4%B9%E0%A4%BE%E0%A4%B8%E0%A4%82%E0%A4%98?node-id=98-295&t=PURzfExwBGTgRPsM-1'
-},
-
-   {
-  id: 7,
-  title: 'FinFlow - Personal Finance App',
-  category: 'ui/ux',
-  description: 'Modern finance app UI for smart money management',
-  fullDescription: 'Designed a complete personal finance mobile app in Figma focusing on clean UI, intuitive navigation, and user-friendly experience. Created wireframes, user flows, and high-fidelity prototypes. Key features include expense tracking, budget management, recurring payments, and analytics dashboard. Applied design system, color hierarchy, and responsive layouts to ensure consistency and usability.',
-  color: 'bg-gradient-to-br from-indigo-400 to-purple-500',
-  image: FinFlow,
-  tags: ['Figma', 'UI Design', 'UX Research', 'Prototyping', 'Design System'],
-  duration: '1-2 weeks',
-  client: 'Personal Project',
-  year: '2026',
-  url : "https://www.figma.com/proto/U5ca6D5xBZChSXml2N67MB/FinFlow?node-id=1-2&p=f&t=LAF6GzE26xdGxU8S-0&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A2&show-proto-sidebar=1"
-},
-{
-  id: 8,
-  title: 'BNews - News App UI',
-  category: 'ui/ux',
-  description: 'Clean and fast news reading experience',
-  fullDescription: 'Designed a modern news mobile app in Figma focused on readability and smooth user experience. Created wireframes, user flows, and high-fidelity UI screens. Key features include category-based news browsing, trending highlights, search functionality, and personalized feed. Emphasized typography, spacing, and visual hierarchy to enhance content consumption and user engagement.',
-  color: 'bg-gradient-to-br from-slate-800 to-slate-900',
-  image: BNews,
-  tags: ['Figma', 'UI Design', 'UX Design', 'Prototyping', 'Typography'],
-  duration: '1-2 weeks',
-  client: 'Personal Project',
-  year: '2026',
-  url: 'https://www.figma.com/proto/h4JzpUYZXYJCKhBCLso77t/BNews?node-id=2002-389&t=wFMEVS1ZF8pjNGDn-0&scaling=scale-down&content-scaling=fixed&page-id=0%3A1'
-},
-    // {
-    //   id: 5,
-    //   title: 'Restaurant Landing Page',
-    //   category: 'web',
-    //   description: 'Beautiful restaurant website',
-    //   fullDescription: 'Designed and developed a modern restaurant landing page with menu showcase, online reservation form, and location map. Fully responsive with smooth animations and optimized images.',
-    //   color: 'bg-gradient-to-br from-pink-400 to-rose-500',
-    //   tags: ['HTML', 'CSS', 'JavaScript', 'Responsive'],
-    //   duration: '4 days',
-    //   client: 'Practice Project',
-    //   year: '2024'
-    // },
-    // {
-    //   id: 6,
-    //   title: 'Movie Search App',
-    //   category: 'web',
-    //   description: 'Browse and search movies',
-    //   fullDescription: 'Built a movie search application using React and TMDB API. Features movie search, detailed information, ratings, and responsive card layout. Implements debouncing for optimized API calls.',
-    //   color: 'bg-gradient-to-br from-indigo-400 to-purple-500',
-    //   tags: ['React', 'API Integration', 'Search'],
-    //   duration: '5 days',
-    //   client: 'Personal Project',
-    //   year: '2025'
-    // },
-   {
-  id: 9,
-  title: 'Learn-X – Online Library Management Website',
-  category: 'web',
-  description: 'Online library management system',
-  fullDescription: 'Developed an Online Library Management Website using HTML, CSS, and JavaScript. Features include book listing, category-wise organization, search functionality, and a responsive, user-friendly interface.',
-  color: 'bg-gradient-to-br from-amber-400 to-orange-500',
-  image: null,
-  tags: ['HTML', 'CSS', 'JavaScript',],
-  duration: '2 weeks',
-  client: 'Personal Project',
-  year: '2024',
-  url: 'https://tech-learn0.netlify.app/'
-},
-
-    // {
-    //   id: 8,
-    //   title: 'Blog Website Template',
-    //   category: 'web',
-    //   description: 'Clean blog layout design',
-    //   fullDescription: 'Developed a responsive blog template with article cards, sidebar, categories, and pagination. Focus on typography and readability with mobile-first approach.',
-    //   color: 'bg-gradient-to-br from-violet-400 to-purple-500',
-    //   tags: ['HTML', 'CSS', 'Responsive', 'Typography'],
-    //   duration: '3 days',
-    //   client: 'Practice Project',
-    //   year: '2024'
-    // },
-    // {
-    //   id: 9,
-    //   title: 'Quiz Application',
-    //   category: 'web',
-    //   description: 'Interactive quiz with scoring',
-    //   fullDescription: 'Built an interactive quiz application with multiple-choice questions, timer, score tracking, and results page. Implements state management and conditional rendering in React.',
-    //   color: 'bg-gradient-to-br from-amber-400 to-orange-500',
-    //   tags: ['React', 'State Management', 'Interactive'],
-    //   duration: '1 week',
-    //   client: 'Personal Project',
-    //   year: '2022'
-    // }
+      id: 6,
+      title: 'Vet Consultation Online',
+      category: 'design',
+      fullDescription: 'End-to-end user experience for an online pet consultation platform. Created wireframes and interactive flows for appointment booking and service discovery.',
+      gradient: 'linear-gradient(135deg, #101a13, #0f1a1e)',
+      emoji: '🐾',
+      tags: ['Figma', 'UI/UX', 'Healthcare', 'Prototyping'],
+      duration: 'Contract', client: 'DigiQuest', year: '2025', url: 'https://www.figma.com/design/5AH8d659NJWQbqsyhdZXq0/DigiVet?node-id=0-1',
+    },
+    {
+      id: 7,
+      title: 'GreenLand Hospital',
+      category: 'design',
+      fullDescription: 'Comprehensive UI/UX for GreenLand Hospital — patient booking, doctor profiles, services showcase. Designed for accessibility and trust.',
+      gradient: 'linear-gradient(135deg, #0f1a10, #0a160a)',
+      emoji: '🏥',
+      tags: ['Figma', 'UI/UX', 'Healthcare', 'Wireframing'],
+      duration: '3 months', client: 'DigiQuest Consultancy', year: '2025',
+      url: 'https://www.figma.com/design/r4aHEbkxxACEDLMWK080KC/Green-Land-Hospital?node-id=0-1',
+    },
+    {
+      id: 8,
+      title: 'Veriqos Technologies Portfolio',
+      category: 'design',
+      fullDescription: 'End-to-end user experience for a corporate portfolio website. Utilized Figma Auto Layout and design systems to ensure consistency and scalability across pages.',
+      image: veriqos,
+      tags: ['Figma', 'UI/UX', 'Corporate', 'Web Design'],
+      duration: 'Contract', client: 'Veriqos', year: '2026', url: 'https://www.figma.com/design/1I3ID4GaU6RbVmnkyNe6Wo/Veriqos?node-id=0-1',
+    },
+    {
+      id: 9,
+      title: 'Vishwa Hindu MahaSangh',
+      category: 'design',
+      fullDescription: 'Official website design with consistent visual identity — promotional posters, social media graphics, and marketing materials across all channels.',
+      gradient: 'linear-gradient(135deg, #1a1208, #181006)',
+      emoji: '🏛️',
+      tags: ['Figma', 'Canva', 'UI/UX', 'Graphic Design', 'Branding'],
+      duration: '2 weeks', client: 'Yogi Foundation', year: '2025',
+      url: 'https://www.figma.com/design/aOm6SXOJ1pCIYDbvB4AiUh/',
+    },
+    {
+      id: 10,
+      title: 'Niramaya Yoga & Wellness',
+      category: 'web',
+      fullDescription: 'User-centric interfaces for Home, Sessions, and Booking flows. Developed structured user flows and built scalable design systems using Figma components.',
+      gradient: 'linear-gradient(135deg, #181208, #140e06)',
+      emoji: '🧘',
+      tags: ['Figma', 'UI/UX', 'Web Design', 'Auto Layout'],
+      duration: 'Contract', client: 'Niramaya', year: '2025', url: '#',
+    },
+    {
+      id: 11,
+      title: 'Learn-X Library Website',
+      category: 'web',
+      fullDescription: 'Online Library Management Website in HTML, CSS, and JavaScript — book listing, category organization, search, and a responsive interface.',
+      gradient: 'linear-gradient(135deg, #181208, #140e06)',
+      emoji: '📖',
+      tags: ['HTML', 'CSS', 'JavaScript'],
+      duration: '2 weeks', client: 'Personal Project', year: '2024',
+      url: 'https://tech-learn0.netlify.app/',
+    },
   ]
+
 
   const categories = [
-    { id: 'all', name: 'All Projects' },
-    { id: 'web', name: 'Web Development' },
-    { id: 'design', name: 'UI/UX Design' }
+    { id: 'all', label: 'All', count: projects.length },
+    { id: 'web', label: 'Web Dev', count: projects.filter(p => p.category === 'web').length },
+    { id: 'design', label: 'UI/UX Design', count: projects.filter(p => p.category === 'design').length },
+    { id: 'ui/ux', label: 'App UI', count: projects.filter(p => p.category === 'ui/ux').length },
   ]
 
-  const filteredProjects = selectedCategory === 'all' 
-    ? projects 
+  const filtered = selectedCategory === 'all'
+    ? projects
     : projects.filter(p => p.category === selectedCategory)
 
+  const processSteps = [
+    { step: '01', title: 'Research', desc: 'Understanding user needs, business goals, and the competitive landscape before any design decisions.', num: '01' },
+    { step: '02', title: 'Design', desc: 'Wireframes to high-fidelity — designed in Figma with the implementation constraints already in mind.', num: '02' },
+    { step: '03', title: 'Prototype', desc: 'Interactive prototypes to validate flows and test assumptions before writing a line of code.', num: '03' },
+    { step: '04', title: 'Ship & Iterate', desc: 'Test with real users, gather honest feedback, and improve. Good design is never finished.', num: '04' },
+  ]
+
   return (
-    <div className="min-h-screen bg-slate-950 text-white pt-16 relative overflow-hidden">
-      {/* Animated Background with Cursor */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div 
-          className="absolute w-[500px] h-[500px] bg-purple-500/20 rounded-full blur-[120px] transition-all duration-300 ease-out"
-          style={{
-            left: mousePosition.x - 250,
-            top: mousePosition.y - 250,
-          }}
-        />
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-pink-500/10 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-orange-500/10 rounded-full blur-[120px] animate-pulse delay-75" />
+    <div
+      className="min-h-screen relative overflow-hidden"
+      style={{ paddingTop: 80, fontFamily: 'var(--font-body)', color: 'var(--text-primary)' }}
+    >
+      {/* Ambient bg */}
+      <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 0 }}>
+        <div style={{ position: 'absolute', top: 0, right: 0, width: 600, height: 600, background: 'radial-gradient(circle, rgba(201,169,110,0.04) 0%, transparent 70%)', filter: 'blur(60px)' }} />
+        <div style={{ position: 'absolute', bottom: 0, left: 0, width: 500, height: 500, background: 'radial-gradient(circle, rgba(138,117,96,0.03) 0%, transparent 70%)', filter: 'blur(60px)' }} />
       </div>
 
-      {/* Hero Section */}
-      <section className="relative py-16">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <div className="inline-block px-4 py-2 bg-purple-500/10 border border-purple-500/20 rounded-full text-purple-400 text-sm mb-6">
-            Projects
-          </div>
-          <h1 className="text-5xl mb-3 md:text-7xl font-bold mb-4">
-            Featured
-            <span className="block bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
-              Projects
-            </span>
-          </h1>
-          <p className="text-xl text-slate-400  max-w-3xl mx-auto mb-8">
-            A curated selection of my recent work across web and mobile platforms. Each project represents a unique challenge and an opportunity to create meaningful user experiences.
-          </p>
-          
-          {/* Category Filter */}
-          <div className="flex gap-4 justify-center flex-wrap">
-            {categories.map((category) => (
-              <button
-                key={category.id}
-                onClick={() => setSelectedCategory(category.id)}
-                className={`px-6 py-3 rounded-full font-semibold transition-all ${
-                  selectedCategory === category.id
-                    ? 'bg-gradient-to-r from-purple-500 to-pink-500 shadow-lg shadow-purple-500/50'
-                    : 'border border-slate-700 hover:bg-slate-800'
-                }`}
-              >
-                {category.name}
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Projects Grid */}
-      <section className="px-6 pb-32">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProjects.map((project) => (
-              <div 
-                key={project.id} 
-                className="group cursor-pointer"
-                onClick={() => window.open(project.url, '_blank', 'noopener,noreferrer')}
-              >
-                <div className="relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-800/50 backdrop-blur-xl hover:border-slate-700 transition-all hover:scale-105">
-                  <div 
-                  className={`w-full aspect-[4/3] relative ${!project.image ? project.color : 'bg-slate-950'}`}
-                  style={project.image ? { backgroundImage: `url(${project.image})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}
-                >
-                    <div className="absolute inset-0 bg-slate-950/0 group-hover:bg-slate-950/20 transition-all"></div>
-                    <div className="absolute top-4 right-4 px-3 py-1 bg-slate-950/80 backdrop-blur-sm rounded-full text-xs">
-                      {project.year}
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <div className="flex items-center gap-2 mb-3">
-                      <span className="text-sm text-purple-400">{project.category === 'web' ? '🌐 Web' : '📱 Mobile'}</span>
-                      <span className="text-slate-600">•</span>
-                      <span className="text-sm text-slate-500">{project.duration}</span>
-                    </div>
-                    <h3 className="text-2xl font-bold mb-2 group-hover:text-purple-400 transition-colors">
-                      {project.title}
-                    </h3>
-                    <p className="text-slate-400 mb-4">{project.description}</p>
-                    <p className="text-sm text-slate-500 mb-4 leading-relaxed">
-                      {project.fullDescription}
-                    </p>
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {project.tags.map((tag) => (
-                        <span 
-                          key={tag} 
-                          className="px-3 py-1 bg-slate-900/50 border border-slate-700 rounded-full text-xs text-slate-400"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                    <div className="text-sm text-slate-500">
-                      Client: <span className="text-slate-400">{project.client}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Process Section */}
-      <section className="py-32 bg-slate-900/50">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl font-bold mb-6">My Design Process</h2>
-            <p className="text-xl text-slate-400 max-w-3xl mx-auto">
-              A structured approach to creating exceptional user experiences
+      {/* ═══ HERO ═══ */}
+      <section style={{ padding: '80px 0 60px', position: 'relative' }}>
+        <div className="container-xl">
+          <ScrollReveal className="reveal">
+            <div className="section-num">03 — Work</div>
+            <h1 style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(2.5rem, 6vw, 5rem)',
+              fontWeight: 500,
+              marginBottom: 16,
+              letterSpacing: '-0.03em',
+              lineHeight: 1.0,
+              color: 'var(--text-primary)',
+            }}>
+              Selected projects.<br />
+              <span style={{ color: 'var(--accent)', fontWeight: 300, fontStyle: 'italic' }}>11 things I've shipped.</span>
+            </h1>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '15px', maxWidth: 500, lineHeight: 1.8, marginBottom: 48 }}>
+              A mix of client work and personal projects across web development and UI/UX design.
+              Each one taught me something I couldn't learn from a course.
             </p>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="p-8 bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-800">
-              <div className="w-16 h-16 bg-purple-500/10 border border-purple-500/20 rounded-2xl flex items-center justify-center text-purple-400 mb-6 text-3xl">
-                🔍
-              </div>
-              <h3 className="text-2xl font-bold mb-4">1. Research</h3>
-              <p className="text-slate-400 leading-relaxed">
-                Understanding user needs, business goals, and market landscape through research, interviews, and competitive analysis.
-              </p>
+
+            {/* Filter pills */}
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              {categories.map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => setSelectedCategory(cat.id)}
+                  className={`filter-pill ${selectedCategory === cat.id ? 'active' : ''}`}
+                  aria-pressed={selectedCategory === cat.id}
+                  style={{ cursor: 'pointer' }}
+                >
+                  {cat.label}
+                  <span style={{
+                    marginLeft: 6,
+                    padding: '0px 6px',
+                    fontSize: '10px',
+                    fontFamily: 'var(--font-mono)',
+                    color: selectedCategory === cat.id ? 'var(--accent)' : 'var(--text-muted)',
+                  }}>
+                    {cat.count}
+                  </span>
+                </button>
+              ))}
             </div>
-            <div className="p-8 bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-800">
-              <div className="w-16 h-16 bg-pink-500/10 border border-pink-500/20 rounded-2xl flex items-center justify-center text-pink-400 mb-6 text-3xl">
-                ✏️
-              </div>
-              <h3 className="text-2xl font-bold mb-4">2. Design</h3>
-              <p className="text-slate-400 leading-relaxed">
-                Creating wireframes, mockups, and high-fidelity designs that solve user problems while aligning with brand identity.
-              </p>
-            </div>
-            <div className="p-8 bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-800">
-              <div className="w-16 h-16 bg-orange-500/10 border border-orange-500/20 rounded-2xl flex items-center justify-center text-orange-400 mb-6 text-3xl">
-                🎨
-              </div>
-              <h3 className="text-2xl font-bold mb-4">3. Prototype</h3>
-              <p className="text-slate-400 leading-relaxed">
-                Building interactive prototypes to validate design decisions and test user flows before development begins.
-              </p>
-            </div>
-            <div className="p-8 bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-800">
-              <div className="w-16 h-16 bg-cyan-500/10 border border-cyan-500/20 rounded-2xl flex items-center justify-center text-cyan-400 mb-6 text-3xl">
-                ✅
-              </div>
-              <h3 className="text-2xl font-bold mb-4">4. Validate</h3>
-              <p className="text-slate-400 leading-relaxed">
-                Testing with real users, gathering feedback, and iterating on designs to ensure optimal user experience.
-              </p>
-            </div>
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 
-      {/* Testimonials
-      <section className="py-32 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl font-bold mb-6">Client Testimonials</h2>
-            <p className="text-xl text-slate-400">What clients say about working with me</p>
+      {/* ═══ PROJECTS GRID ═══ */}
+      <section style={{ padding: '0 0 80px', position: 'relative' }}>
+        <div className="container-xl">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 1 }}>
+            {filtered.map((project, i) => (
+              <ScrollReveal key={project.id} className="reveal" delay={`delay-${(i % 3) * 100}`}>
+                <ProjectCard project={project} index={i} />
+              </ScrollReveal>
+            ))}
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="p-8 bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-800">
-              <div className="flex gap-1 mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <span key={i} className="text-yellow-400">⭐</span>
-                ))}
-              </div>
-              <p className="text-slate-300 mb-6 leading-relaxed">
-                "Exceptional designer who truly understands user needs. The e-commerce redesign exceeded our expectations and significantly improved our conversion rates."
-              </p>
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full"></div>
-                <div>
-                  <div className="font-semibold">Sarah Johnson</div>
-                  <div className="text-sm text-slate-400">CEO, Fashion Retailer Inc.</div>
-                </div>
-              </div>
-            </div>
-            <div className="p-8 bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-800">
-              <div className="flex gap-1 mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <span key={i} className="text-yellow-400">⭐</span>
-                ))}
-              </div>
-              <p className="text-slate-300 mb-6 leading-relaxed">
-                "Outstanding work on our mobile banking app. The design is both beautiful and secure, and our users love the intuitive interface."
-              </p>
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-cyan-500 rounded-full"></div>
-                <div>
-                  <div className="font-semibold">Michael Chen</div>
-                  <div className="text-sm text-slate-400">Product Director, National Bank</div>
-                </div>
-              </div>
-            </div>
-            <div className="p-8 bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-800">
-              <div className="flex gap-1 mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <span key={i} className="text-yellow-400">⭐</span>
-                ))}
-              </div>
-              <p className="text-slate-300 mb-6 leading-relaxed">
-                "A pleasure to work with! Delivered a stunning fitness app that our users find engaging and motivating. Highly recommended."
-              </p>
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full"></div>
-                <div>
-                  <div className="font-semibold">Emily Rodriguez</div>
-                  <div className="text-sm text-slate-400">Founder, FitLife Technologies</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section> */}
 
-
-      {/* Client Testimonials */}
-      <section className="relative py-16 px-6">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-900/50 to-transparent" />
-        <div className="relative max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <span className="inline-block px-4 py-2 bg-purple-500/10 border border-purple-500/20 rounded-full text-purple-400 text-sm mb-6">
-              Testimonials
-            </span>
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Client Reviews</h2>
-            <p className="text-xl text-slate-400">What people say about my work</p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {/* Yogi Foundation Testimonial */}
-            <div className="group p-8 bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 hover:border-purple-500/50 transition-all duration-300 hover:-translate-y-2">
-              <div className="flex items-start gap-4 mb-6">
-                <div className="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-purple-500/20 to-purple-500/10 border border-purple-500/30 rounded-full flex items-center justify-center text-2xl">
-                  🙏
-                </div>
-                <div>
-                  <h3 className="font-bold text-lg mb-1">Priya Sharma</h3>
-                  <p className="text-sm text-purple-400">HR Manager</p>
-                  <p className="text-xs text-slate-500">Yogi Foundation</p>
-                </div>
-              </div>
-              <div className="flex gap-1 mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <svg key={i} className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                ))}
-              </div>
-              <p className="text-slate-400 leading-relaxed">
-                "Ritika's creative vision and dedication were outstanding. She designed our Vishwa Hindu MahaSangh website beautifully and created stunning promotional materials. Her attention to detail and ability to understand our vision made the collaboration seamless. Highly professional!"
-              </p>
+          {filtered.length === 0 && (
+            <div style={{ textAlign: 'center', padding: '60px 0', color: 'var(--text-muted)' }}>
+              No projects found for this category.
             </div>
-
-            {/* DigiQuest Consultancy Testimonial */}
-            <div className="group p-8 bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 hover:border-pink-500/50 transition-all duration-300 hover:-translate-y-2">
-              <div className="flex items-start gap-4 mb-6">
-                <div className="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-pink-500/20 to-pink-500/10 border border-pink-500/30 rounded-full flex items-center justify-center text-2xl">
-                  💼
-                </div>
-                <div>
-                  <h3 className="font-bold text-lg mb-1">Rajesh Kumar</h3>
-                  <p className="text-sm text-pink-400">Technical Lead</p>
-                  <p className="text-xs text-slate-500">DigiQuest Consultancy</p>
-                </div>
-              </div>
-              <div className="flex gap-1 mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <svg key={i} className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                ))}
-              </div>
-              <p className="text-slate-400 leading-relaxed">
-                "Ritika impressed us with her dual expertise in design and development. She delivered pixel-perfect UI designs for both Vet Consultation Online and GreenLand Hospital, then seamlessly implemented them in React. A talented professional who bridges design and code effortlessly."
-              </p>
-            </div>
-
-            {/* Whizlancer Infotech Testimonial */}
-            <div className="group p-8 bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 hover:border-orange-500/50 transition-all duration-300 hover:-translate-y-2">
-              <div className="flex items-start gap-4 mb-6">
-                <div className="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-orange-500/20 to-orange-500/10 border border-orange-500/30 rounded-full flex items-center justify-center text-2xl">
-                  ⭐
-                </div>
-                <div>
-                  <h3 className="font-bold text-lg mb-1">Amit Verma</h3>
-                  <p className="text-sm text-orange-400">Project Manager</p>
-                  <p className="text-xs text-slate-500">Whizlancer Infotech</p>
-                </div>
-              </div>
-              <div className="flex gap-1 mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <svg key={i} className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                ))}
-              </div>
-              <p className="text-slate-400 leading-relaxed">
-                "Working remotely with Ritika was a pleasure. She designed the Veriqos Technologies portfolio with modern aesthetics and professional layouts. Her communication was clear, deliverables were on time, and the final design exceeded our expectations. Would definitely hire again!"
-              </p>
-            </div>
-          </div>
+          )}
         </div>
       </section>
 
-    
+      {/* ═══ PROCESS ═══ */}
+      <section style={{ padding: '80px 0 100px', position: 'relative' }}>
+        <div className="container-xl">
+          <ScrollReveal className="reveal" style={{ marginBottom: 56 }}>
+            <div className="section-num">— Process</div>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', fontWeight: 500, letterSpacing: '-0.02em', color: 'var(--text-primary)', margin: 0 }}>
+              How I work
+            </h2>
+          </ScrollReveal>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 1 }}>
+            {processSteps.map((step, i) => (
+              <ScrollReveal key={step.step} className="reveal" delay={`delay-${i * 100}`}>
+                <div style={{
+                  padding: '36px 28px',
+                  background: '#0a0a0a',
+                  border: '1px solid var(--border-subtle)',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  minHeight: 220,
+                  transition: 'background 0.3s ease, border-color 0.3s ease',
+                }}
+                  onMouseEnter={(e) => { e.currentTarget.style.background = '#111'; e.currentTarget.style.borderColor = 'rgba(201,169,110,0.2)' }}
+                  onMouseLeave={(e) => { e.currentTarget.style.background = '#0a0a0a'; e.currentTarget.style.borderColor = 'var(--border-subtle)' }}
+                >
+                  {/* Watermark number */}
+                  <div style={{
+                    position: 'absolute', top: 16, right: 20,
+                    fontFamily: 'var(--font-display)', fontSize: '5rem', fontWeight: 600,
+                    color: 'rgba(201,169,110,0.04)', lineHeight: 1, userSelect: 'none',
+                  }}>
+                    {step.num}
+                  </div>
+                  <div style={{
+                    fontFamily: 'var(--font-mono)', fontSize: '11px',
+                    color: 'var(--accent)', marginBottom: 16, letterSpacing: '0.1em',
+                    textTransform: 'uppercase',
+                  }}>
+                    Step {step.step}
+                  </div>
+                  <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.3rem', fontWeight: 500, marginBottom: 12, color: 'var(--text-primary)' }}>
+                    {step.title}
+                  </h3>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '13px', lineHeight: 1.8 }}>
+                    {step.desc}
+                  </p>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   )
 }

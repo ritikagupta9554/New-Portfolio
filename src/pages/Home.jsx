@@ -1,316 +1,560 @@
 import { Link } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import ScrollReveal from '../components/ScrollReveal'
 
-function Home() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  
+// Typewriter hook
+function useTypewriter(words, speed = 80, pause = 2200) {
+  const [text, setText] = useState('')
+  const [wordIndex, setWordIndex] = useState(0)
+  const [deleting, setDeleting] = useState(false)
+
   useEffect(() => {
-    const handleMouseMove = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY })
+    const current = words[wordIndex]
+    let timeout
+
+    if (!deleting && text === current) {
+      timeout = setTimeout(() => setDeleting(true), pause)
+    } else if (deleting && text === '') {
+      setDeleting(false)
+      setWordIndex((i) => (i + 1) % words.length)
+    } else {
+      timeout = setTimeout(() => {
+        setText((t) =>
+          deleting ? t.slice(0, -1) : current.slice(0, t.length + 1)
+        )
+      }, deleting ? speed / 2 : speed)
     }
-    window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
+    return () => clearTimeout(timeout)
+  }, [text, deleting, wordIndex, words, speed, pause])
+
+  return text
+}
+
+// Animated counter
+function useCounter(target, duration = 1800, trigger = true) {
+  const [count, setCount] = useState(0)
+  useEffect(() => {
+    if (!trigger) return
+    let start = 0
+    const step = target / (duration / 16)
+    const timer = setInterval(() => {
+      start += step
+      if (start >= target) { setCount(target); clearInterval(timer) }
+      else setCount(Math.floor(start))
+    }, 16)
+    return () => clearInterval(timer)
+  }, [target, duration, trigger])
+  return count
+}
+
+function StatCard({ number, suffix, label, index }) {
+  const [triggered, setTriggered] = useState(false)
+  const ref = useRef(null)
+  const count = useCounter(parseInt(number), 1600, triggered)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setTriggered(true); observer.disconnect() } },
+      { threshold: 0.5 }
+    )
+    if (ref.current) observer.observe(ref.current)
+    return () => observer.disconnect()
   }, [])
 
   return (
-    <div className="mt-10 min-h-screen bg-slate-950 text-white relative overflow-hidden">
-      {/* Animated Background */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div 
-          className="absolute w-[500px] h-[500px] bg-purple-500/20 rounded-full blur-[120px] transition-all duration-300 ease-out"
-          style={{
-            left: mousePosition.x - 250,
-            top: mousePosition.y - 250,
-          }}
-        />
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-pink-500/10 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-orange-500/10 rounded-full blur-[120px] animate-pulse delay-75" />
+    <div ref={ref} className="reveal" style={{ transitionDelay: `${index * 120}ms` }}>
+      <div style={{
+        fontFamily: 'var(--font-display)',
+        fontSize: 'clamp(3rem, 5vw, 5.5rem)',
+        fontWeight: 300,
+        lineHeight: 1,
+        color: 'var(--text-primary)',
+        letterSpacing: '-0.03em',
+        marginBottom: 8,
+      }}>
+        {count}{suffix}
+      </div>
+      <div style={{
+        fontSize: '12px',
+        fontFamily: 'var(--font-mono)',
+        color: 'var(--accent)',
+        letterSpacing: '0.1em',
+        textTransform: 'uppercase',
+      }}>
+        {label}
+      </div>
+    </div>
+  )
+}
+
+function Home() {
+  const titleWords = ['UI/UX Designer', 'Graphic Designer', 'Visual Thinker']
+  const typedText = useTypewriter(titleWords, 70, 2200)
+  const profileRef = useRef(null)
+
+  // 3D tilt on profile card
+  useEffect(() => {
+    const card = profileRef.current
+    if (!card) return
+    const onMove = (e) => {
+      const rect = card.getBoundingClientRect()
+      const x = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2)
+      const y = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2)
+      card.style.transform = `perspective(800px) rotateX(${-y * 5}deg) rotateY(${x * 5}deg) scale3d(1.01, 1.01, 1.01)`
+    }
+    const onLeave = () => {
+      card.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)'
+    }
+    card.addEventListener('mousemove', onMove)
+    card.addEventListener('mouseleave', onLeave)
+    return () => {
+      card.removeEventListener('mousemove', onMove)
+      card.removeEventListener('mouseleave', onLeave)
+    }
+  }, [])
+
+  const skills = ['Figma', 'Canva', 'Wireframing', 'Prototyping', 'UI/UX Design', 'Graphic Design']
+
+  const services = [
+    {
+      icon: (
+        <svg width="26" height="26" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+        </svg>
+      ),
+      title: 'Web Development',
+      description: 'Pixel-perfect, responsive websites built with React and modern CSS. Code that\'s as clean as the design it renders.',
+      tags: ['Figma', 'Canva', 'UI Layouts', 'Landing Pages'],
+      num: '01',
+    },
+    {
+      icon: (
+        <svg width="26" height="26" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+        </svg>
+      ),
+      title: 'UI/UX Design',
+      description: 'Interfaces that feel inevitable in hindsight. From research to high-fidelity prototype — designed in Figma, tested on real users.',
+      tags: ['Figma', 'Canva', 'Prototyping', 'Design Systems'],
+      num: '02',
+    },
+    {
+      icon: (
+        <svg width="26" height="26" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+      ),
+      title: 'Graphic Design',
+      description: 'Creating strong visual identities — from logos and branding to social media creatives, brochures, and catalogs.',
+      tags: ['Branding', 'Social Media', 'Logos', 'Print'],
+      num: '03',
+    },
+  ]
+
+  return (
+    <div
+      className="min-h-screen relative overflow-hidden"
+      style={{ paddingTop: 80, fontFamily: 'var(--font-body)', color: 'var(--text-primary)' }}
+    >
+      {/* Ambient bg */}
+      <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 0 }}>
+        <div style={{
+          position: 'absolute', top: '5%', right: '-5%',
+          width: 700, height: 700,
+          background: 'radial-gradient(circle, rgba(201,169,110,0.05) 0%, transparent 65%)',
+          filter: 'blur(60px)',
+        }} />
+        <div style={{
+          position: 'absolute', bottom: '15%', left: '-8%',
+          width: 600, height: 600,
+          background: 'radial-gradient(circle, rgba(138,117,96,0.04) 0%, transparent 65%)',
+          filter: 'blur(60px)',
+        }} />
       </div>
 
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center pt-16">
-        <div className="max-w-7xl mx-auto w-full px-4">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8 animate-fade-in">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-full text-purple-400 text-sm backdrop-blur-sm">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-purple-500"></span>
+      {/* ═══════════════════ HERO ═══════════════════ */}
+      <section className="relative" style={{ minHeight: '92vh', display: 'flex', alignItems: 'center', padding: '40px 0 80px' }}>
+        <div className="container-xl w-full">
+
+          {/* Editorial asymmetric grid: text takes 60%, card takes 40% */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'minmax(0, 1.1fr) minmax(0, 0.9fr)',
+            gap: '80px',
+            alignItems: 'center',
+          }}>
+
+            {/* LEFT: Text block — NOT centered */}
+            <div className="animate-fade-in">
+
+              {/* Availability tag */}
+              <div className="status-badge" style={{ marginBottom: 40 }}>
+                <span className="status-dot" />
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.08em' }}>
+                  OPEN TO WORK — REMOTE &amp; ON-SITE
                 </span>
-                Available for freelance work
-              </div>
-              
-              <div>
-                <h1 className="text-5xl md:text-7xl font-bold mb-4 leading-tight">
-                  <span className="inline-block hover:scale-105 transition-transform">Hi, I'm</span>{' '}
-                  <span className="block mt-2 bg-gradient-to-r from-purple-400 via-pink-500 to-orange-400 bg-clip-text text-transparent animate-gradient-x">
-                   Ritika Gupta
-                  </span>
-                </h1>
-                <h2 className="text-2xl md:text-3xl font-semibold text-slate-300 mb-2">
-                  Frontend Developer & UI/UX Designer
-                </h2>
               </div>
 
-              <p className="text-xl text-slate-300 leading-relaxed">
-                Over the past year, I've developed diverse projects spanning <span className="text-purple-400 font-semibold">UI/UX design and Frontend development</span>. I design pixel-perfect interfaces in Figma and bring them to life with React, creating seamless user experiences from concept to code.
+              {/* Big editorial name — no gradient, no gimmick */}
+              <div style={{ marginBottom: 24 }}>
+                <div style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: 'clamp(1rem, 1.5vw, 1.2rem)',
+                  fontWeight: 400,
+                  color: 'var(--text-muted)',
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                  marginBottom: 12,
+                  fontStyle: 'italic',
+                }}>
+                  I'm
+                </div>
+                <h1 style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: 'clamp(4rem, 8vw, 8rem)',
+                  fontWeight: 600,
+                  lineHeight: 0.9,
+                  letterSpacing: '-0.03em',
+                  color: 'var(--text-primary)',
+                  margin: 0,
+                }}>
+                  Ritika<br />
+                  <span style={{ color: 'var(--accent)', fontWeight: 300, fontStyle: 'italic' }}>Gupta.</span>
+                </h1>
+              </div>
+
+              {/* Typewriter role */}
+              <div style={{
+                fontSize: 'clamp(1rem, 2vw, 1.2rem)',
+                color: 'var(--text-secondary)',
+                marginBottom: 32,
+                fontWeight: 400,
+                height: '1.8rem',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 4,
+                fontFamily: 'var(--font-mono)',
+                letterSpacing: '0.02em',
+              }}>
+                <span style={{ color: 'var(--accent)', marginRight: 8 }}>—</span>
+                <span>{typedText}</span>
+                <span className="typewriter-cursor" />
+              </div>
+
+              <p style={{
+                fontSize: 'clamp(0.9rem, 1.5vw, 1rem)',
+                color: 'var(--text-secondary)',
+                lineHeight: 1.85,
+                marginBottom: 44,
+                maxWidth: 460,
+              }}>
+                I design user-centric interfaces and compelling brand visuals.
+                Currently based in Noida, UP — working with clients worldwide.
               </p>
 
-              <div className="flex flex-wrap gap-3 text-sm">
-                {['Figma', 'Canva', 'UI/UX Design', 'React', 'JavaScript', 'HTML', 'CSS', 'Tailwind CSS', 'Java', 'SQL', 'Git'].map((skill, idx) => (
-                  <span key={idx} className="px-4 py-2 bg-slate-800/50 border border-slate-700/50 rounded-lg backdrop-blur-sm hover:border-purple-500/50 transition-all">
-                    {skill}
-                  </span>
+              {/* Skill tags — restrained, mono */}
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 44 }}>
+                {skills.map((skill) => (
+                  <span key={skill} className="badge">{skill}</span>
                 ))}
               </div>
 
-              <div className="flex gap-4 flex-wrap pt-4">
-                <Link 
-                  to="/projects" 
-                  className="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full font-semibold overflow-hidden transition-all hover:shadow-xl hover:shadow-purple-500/50 hover:scale-105"
-                >
-                  <span className="relative z-10">View Projects</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+              {/* CTA buttons */}
+              <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
+                <Link to="/projects" className="btn-primary btn-magnetic" id="view-projects-btn">
+                  <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    View Work
+                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                  </span>
                 </Link>
-                <Link 
-                  to="/contact" 
-                  className="px-8 py-4 border-2 border-slate-700 rounded-full font-semibold hover:bg-slate-800/50 hover:border-purple-500/50 transition-all backdrop-blur-sm"
-                >
-                  Contact Me
+                <Link to="/contact" className="btn-outline btn-magnetic" id="contact-me-btn">
+                  <span>Say Hello</span>
                 </Link>
               </div>
             </div>
 
-            <div className="relative animate-fade-in-delayed">
-              {/* Floating elements */}
-              <div className="absolute -top-4 -right-4 w-24 h-24 bg-purple-500/20 rounded-2xl rotate-12 animate-float" />
-              <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-pink-500/20 rounded-2xl -rotate-12 animate-float-delayed" />
-              
-              <div className="relative w-full aspect-square">
-                {/* Glow effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500 rounded-3xl opacity-20 blur-3xl animate-pulse" />
-                
-                {/* Main card */}
-                <div className="relative w-full h-full bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-2xl rounded-3xl border border-slate-700/50 overflow-hidden group">
-                  {/* Grid pattern overlay */}
-                  <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_at_center,black,transparent)]" />
-                  
-                  <div className="relative h-full flex flex-col items-center justify-center p-8">
-                    {/* Avatar with gradient ring */}
-                    <div className="relative mb-6">
-                      <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full blur-xl opacity-50 group-hover:opacity-75 transition-opacity" />
-                      <div className="relative w-48 h-48 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-7xl transform group-hover:scale-110 transition-transform duration-300">
-                        RG
-                      </div>
-                      {/* Orbiting dots */}
-                      <div className="absolute inset-0 animate-spin-slow">
-                        <div className="absolute top-0 left-1/2 w-3 h-3 bg-purple-400 rounded-full -translate-x-1/2" />
-                      </div>
-                      <div className="absolute inset-0 animate-spin-slow-reverse">
-                        <div className="absolute bottom-0 left-1/2 w-3 h-3 bg-pink-400 rounded-full -translate-x-1/2" />
-                      </div>
-                    </div>
-                    
-                    <div className="text-center space-y-2">
-                      <p className="text-slate-300 text-lg font-medium">Ritika Gupta</p>
-                      <p className="text-slate-400 text-sm">Frontend Developer & UI/UX Designer</p>
-                      <div className="flex gap-2 justify-center">
-                        <span className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" />
-                        <span className="w-2 h-2 bg-pink-500 rounded-full animate-bounce delay-75" />
-                        <span className="w-2 h-2 bg-orange-500 rounded-full animate-bounce delay-150" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="relative py-12 px-6 border-y border-slate-800/50 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[
-              { number: '1+', label: 'Year Experience', description: 'Combined UI/UX design and development', gradient: 'from-purple-400 to-pink-500', delay: 'delay-0' },
-              { number: '15+', label: 'Projects Completed', description: 'Design and development projects', gradient: 'from-blue-400 to-cyan-500', delay: 'delay-100' },
-              { number: '3', label: 'Companies', description: 'Professional experience across organizations', gradient: 'from-green-400 to-emerald-500', delay: 'delay-200' },
-              { number: '10+', label: 'Technologies', description: 'Design tools and frontend frameworks', gradient: 'from-orange-400 to-red-500', delay: 'delay-300' }
-            ].map((stat, idx) => (
-              <div key={idx} className={`text-center group hover:scale-105 transition-all duration-300 ${stat.delay}`}>
-                <div className="relative inline-block mb-3">
-                  <div className={`absolute inset-0 bg-gradient-to-r ${stat.gradient} blur-xl opacity-0 group-hover:opacity-50 transition-opacity`} />
-                  <div className={`relative text-5xl md:text-6xl font-bold bg-gradient-to-r ${stat.gradient} bg-clip-text text-transparent`}>
-                    {stat.number}
-                  </div>
-                </div>
-                <div className="text-slate-300 font-semibold mb-2">{stat.label}</div>
-                <p className="text-slate-500 text-sm leading-relaxed">{stat.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Services Section */}
-      <section className="relative py-16 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <span className="inline-block px-4 py-2 bg-purple-500/10 border border-purple-500/20 rounded-full text-purple-400 text-sm mb-6">
-              Services
-            </span>
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">What I Do</h2>
-            <p className="text-xl text-slate-400 max-w-3xl mx-auto">
-              Frontend development services to bring your ideas to life
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              {
-                icon: (
-                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                  </svg>
-                ),
-                title: 'Web Development',
-                description: 'Building responsive and interactive websites using modern HTML, CSS, and JavaScript. Clean code that works seamlessly across all devices.',
-                color: 'purple',
-                features: ['HTML5', 'CSS3', 'JavaScript', 'Responsive Design']
-              },
-              {
-                icon: (
-                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-                  </svg>
-                ),
-                title: 'React Development',
-                description: 'Creating dynamic single-page applications with React. Component-based architecture for scalable and maintainable code.',
-                color: 'pink',
-                features: ['React.js', 'Hooks', 'State Management', 'Component Design']
-              },
-              {
-                icon: (
-                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-                  </svg>
-                ),
-                title: 'UI Implementation',
-                description: 'Translating designs into pixel-perfect interfaces with Tailwind CSS and modern styling techniques for beautiful user experiences.',
-                color: 'orange',
-                features: ['Tailwind CSS', 'UI Libraries', 'Animations', 'Styling']
-              }
-            ].map((service, idx) => (
-              <div 
-                key={idx}
-                className="group relative p-8 bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 hover:border-${service.color}-500/50 transition-all duration-300 hover:-translate-y-2 overflow-hidden"
+            {/* RIGHT: Profile card — solid dark, amber border */}
+            <div
+              ref={profileRef}
+              className="tilt-card animate-fade-in-delayed"
+              style={{ maxWidth: 420, margin: '0 auto', transition: 'transform 0.2s ease' }}
+            >
+              <div
+                className="solid-card"
+                style={{
+                  padding: '48px 36px',
+                  textAlign: 'center',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  borderColor: 'rgba(201,169,110,0.18)',
+                }}
               >
-                {/* Hover gradient effect */}
-                <div className={`absolute inset-0 bg-gradient-to-br from-${service.color}-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
-                
-                <div className="relative z-10">
-                  <div className={`w-16 h-16 bg-${service.color}-500/10 border border-${service.color}-500/20 rounded-2xl flex items-center justify-center text-${service.color}-400 mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
-                    {service.icon}
+                {/* Subtle grid pattern */}
+                <div className="bg-grid-pattern absolute inset-0 opacity-100 pointer-events-none" />
+
+                <div style={{ position: 'relative' }}>
+                  {/* Avatar — simple amber frame, no orbiting dots */}
+                  <div style={{ position: 'relative', display: 'inline-block', marginBottom: 28 }}>
+                    <div style={{
+                      width: 120, height: 120,
+                      background: '#1a1710',
+                      border: '1px solid rgba(201,169,110,0.3)',
+                      borderRadius: '50%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '2.8rem',
+                      fontFamily: 'var(--font-display)',
+                      fontWeight: 600,
+                      color: 'var(--accent)',
+                      position: 'relative',
+                    }}>
+                      RG
+                    </div>
+                    {/* Available indicator */}
+                    <div style={{
+                      position: 'absolute', bottom: 6, right: 6,
+                      width: 16, height: 16,
+                      background: '#6dbd8b',
+                      borderRadius: '50%',
+                      border: '2px solid #141414',
+                    }} />
                   </div>
-                  
-                  <h3 className="text-2xl font-bold mb-4 group-hover:text-${service.color}-400 transition-colors">
-                    {service.title}
-                  </h3>
-                  
-                  <p className="text-slate-400 leading-relaxed mb-6">
-                    {service.description}
+
+                  <h2 style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: '1.6rem',
+                    fontWeight: 500,
+                    marginBottom: 4,
+                    color: 'var(--text-primary)',
+                    letterSpacing: '-0.01em',
+                  }}>
+                    Ritika Gupta
+                  </h2>
+                  <p style={{
+                    color: 'var(--accent)',
+                    fontSize: '12px',
+                    fontFamily: 'var(--font-mono)',
+                    marginBottom: 32,
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                  }}>
+                    UI/UX & Graphic Designer
                   </p>
-                  
-                  <div className="flex flex-wrap gap-2">
-                    {service.features.map((feature, i) => (
-                      <span key={i} className="text-xs px-3 py-1 bg-slate-800/50 border border-slate-700/50 rounded-full text-slate-400">
-                        {feature}
-                      </span>
+
+                  {/* Info rows */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 1, textAlign: 'left' }}>
+                    {[
+                      { key: 'Location', val: 'Noida, UP, India' },
+                      { key: 'Education', val: 'B.Tech in IT' },
+                      { key: 'Experience', val: '1.5+ Years' },
+                      { key: 'Status', val: 'Open to Work' },
+                    ].map(({ key, val }) => (
+                      <div key={key} style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        padding: '12px 0',
+                        borderBottom: '1px solid rgba(201,169,110,0.06)',
+                      }}>
+                        <span style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>{key}</span>
+                        <span style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>{val}</span>
+                      </div>
                     ))}
                   </div>
                 </div>
-
-                {/* Decorative corner */}
-                <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-${service.color}-500/10 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="relative py-16 px-6 overflow-hidden">
-        {/* Background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/50 via-purple-900/20 to-slate-900/50" />
-        
-        <div className="relative max-w-4xl mx-auto text-center">
-          {/* Floating decoration elements */}
-          <div className="absolute -top-12 -left-12 w-24 h-24 bg-purple-500/10 rounded-full blur-2xl animate-pulse" />
-          <div className="absolute -bottom-12 -right-12 w-32 h-32 bg-pink-500/10 rounded-full blur-2xl animate-pulse delay-75" />
-          
-          <div className="relative z-10 space-y-8">
-            <div className="inline-block">
-              <span className="px-4 py-2 bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-full text-purple-400 text-sm backdrop-blur-sm">
-                Let's Work Together
-              </span>
-            </div>
-            
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Ready to Start Your{' '}
-              <span className="bg-gradient-to-r from-purple-400 via-pink-500 to-orange-400 bg-clip-text text-transparent">
-                Project?
+      {/* ═══════════════════ STATS ═══════════════════ */}
+      <section style={{ padding: '60px 0', position: 'relative' }}>
+        <div className="container-xl">
+          <div className="editorial-divider" style={{ marginBottom: 64 }} />
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '40px 60px' }}>
+            {[
+              { number: 1, suffix: '+', label: 'Year Experience' },
+              { number: 15, suffix: '+', label: 'Projects Shipped' },
+              { number: 3, suffix: '', label: 'Companies' },
+              { number: 10, suffix: '+', label: 'Technologies' },
+            ].map((stat, i) => (
+              <StatCard key={stat.label} {...stat} index={i} />
+            ))}
+          </div>
+          <div className="editorial-divider" style={{ marginTop: 64 }} />
+        </div>
+      </section>
+
+      {/* ═══════════════════ SERVICES ═══════════════════ */}
+      <section style={{ padding: '100px 0' }}>
+        <div className="container-xl">
+          <ScrollReveal className="reveal" style={{ marginBottom: 64 }}>
+            <div className="section-num">02 — Services</div>
+            <h2 style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(2.2rem, 4vw, 3.5rem)',
+              fontWeight: 500,
+              letterSpacing: '-0.02em',
+              color: 'var(--text-primary)',
+              maxWidth: 480,
+              lineHeight: 1.1,
+              margin: 0,
+            }}>
+              What I bring<br />
+              <span style={{ color: 'var(--accent)', fontStyle: 'italic', fontWeight: 300 }}>to your project.</span>
+            </h2>
+          </ScrollReveal>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 1 }}>
+            {services.map((service, i) => (
+              <ScrollReveal key={service.title} className="reveal" delay={`delay-${i * 100}`}>
+                <div
+                  className="solid-card"
+                  style={{
+                    padding: '40px 32px',
+                    borderRadius: 0,
+                    position: 'relative',
+                    overflow: 'hidden',
+                    borderRight: i < services.length - 1 ? '1px solid var(--border-subtle)' : 'none',
+                    borderTop: 'none',
+                    borderBottom: 'none',
+                    borderLeft: 'none',
+                    background: '#0a0a0a',
+                    minHeight: 320,
+                    display: 'flex',
+                    flexDirection: 'column',
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.background = '#111' }}
+                  onMouseLeave={(e) => { e.currentTarget.style.background = '#0a0a0a' }}
+                >
+                  {/* Step number — watermark */}
+                  <div style={{
+                    position: 'absolute', top: 24, right: 28,
+                    fontFamily: 'var(--font-display)',
+                    fontSize: '5rem',
+                    fontWeight: 600,
+                    color: 'rgba(201,169,110,0.04)',
+                    lineHeight: 1,
+                    userSelect: 'none',
+                    letterSpacing: '-0.04em',
+                  }}>
+                    {service.num}
+                  </div>
+
+                  {/* Icon */}
+                  <div style={{
+                    width: 48, height: 48,
+                    border: '1px solid rgba(201,169,110,0.2)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    marginBottom: 28,
+                    color: 'var(--accent)',
+                  }}>
+                    {service.icon}
+                  </div>
+
+                  <h3 style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: '1.4rem',
+                    fontWeight: 500,
+                    marginBottom: 14,
+                    color: 'var(--text-primary)',
+                    letterSpacing: '-0.01em',
+                  }}>
+                    {service.title}
+                  </h3>
+
+                  <p style={{
+                    color: 'var(--text-secondary)',
+                    lineHeight: 1.8,
+                    fontSize: '0.875rem',
+                    marginBottom: 24,
+                    flex: 1,
+                  }}>
+                    {service.description}
+                  </p>
+
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                    {service.tags.map((tag) => (
+                      <span key={tag} className="badge">{tag}</span>
+                    ))}
+                  </div>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+          {/* Bottom border of service grid */}
+          <div className="editorial-divider" />
+        </div>
+      </section>
+
+      {/* ═══════════════════ CTA ═══════════════════ */}
+      <section style={{ padding: '120px 0', position: 'relative', overflow: 'hidden' }}>
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: 'radial-gradient(ellipse at 50% 50%, rgba(201,169,110,0.05) 0%, transparent 65%)',
+          pointerEvents: 'none',
+        }} />
+        <div className="container-xl" style={{ position: 'relative' }}>
+          <ScrollReveal className="reveal">
+            <div className="section-num">03 — Let's Build</div>
+            <h2 style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(2.5rem, 6vw, 5.5rem)',
+              fontWeight: 500,
+              letterSpacing: '-0.03em',
+              color: 'var(--text-primary)',
+              lineHeight: 1,
+              maxWidth: 700,
+              marginBottom: 32,
+            }}>
+              Have a project<br />
+              <span style={{ color: 'var(--accent)', fontStyle: 'italic', fontWeight: 300 }}>
+                in mind?
               </span>
             </h2>
-            
-            <p className="text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
-              Let's collaborate to create something amazing together. I'm always excited to work on new and challenging projects that push creative boundaries.
+            <p style={{
+              color: 'var(--text-secondary)',
+              fontSize: '1rem',
+              maxWidth: 440,
+              lineHeight: 1.8,
+              marginBottom: 48,
+            }}>
+              I take on select freelance projects. If you're building something that needs
+              thoughtful design and solid code — I'd like to hear about it.
             </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
-              <Link 
-                to="/contact" 
-                className="group relative px-12 py-5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full font-semibold text-lg overflow-hidden transition-all hover:shadow-2xl hover:shadow-purple-500/50 hover:scale-105"
-              >
-                <span className="relative z-10 flex items-center gap-2">
-                  Get In Touch
-                  <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
+            <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', alignItems: 'center' }}>
+              <Link to="/contact" className="btn-primary btn-magnetic" id="cta-get-in-touch">
+                <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  Start a Conversation
+                  <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
                 </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity" />
               </Link>
-              
-              <Link
-                to="/projects"
-                className="px-12 py-5 border-2 border-slate-700 rounded-full font-semibold text-lg hover:bg-slate-800/50 hover:border-purple-500/50 transition-all backdrop-blur-sm"
-              >
-                View Portfolio
+              <Link to="/projects" className="btn-outline btn-magnetic" id="cta-view-portfolio">
+                <span>See Portfolio</span>
               </Link>
             </div>
 
-            {/* Trust indicators */}
-            <div className="pt-12 flex flex-wrap gap-8 justify-center items-center text-sm text-slate-400">
-              <div className="flex items-center gap-2">
-                <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <span>Quick Response</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <svg className="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <span>Flexible Pricing</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <svg className="w-5 h-5 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <span>Quality Assured</span>
-              </div>
+            {/* Simple indicators */}
+            <div style={{ display: 'flex', gap: 40, marginTop: 64, flexWrap: 'wrap' }}>
+              {[
+                { label: 'Response time', val: '< 24 hours' },
+                { label: 'Availability', val: 'Remote + On-site' },
+                { label: 'Current status', val: 'Open to work' },
+              ].map(({ label, val }) => (
+                <div key={label}>
+                  <div style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 4 }}>{label}</div>
+                  <div style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>{val}</div>
+                </div>
+              ))}
             </div>
-          </div>
+          </ScrollReveal>
         </div>
       </section>
     </div>

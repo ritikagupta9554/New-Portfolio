@@ -1,278 +1,453 @@
-import { useState, useEffect } from 'react'
+import { useState, useRef } from 'react'
+import emailjs from '@emailjs/browser'
+import ScrollReveal from '../components/ScrollReveal'
+
+// ─── EmailJS Configuration ─────────────────────────────────────────
+const EMAILJS_SERVICE_ID  = 'service_ofeir0l'
+const EMAILJS_TEMPLATE_ID = 'template_yrrc12r'
+const EMAILJS_PUBLIC_KEY  = 'q2rlJtXfPUvWd-gbn'
+// ───────────────────────────────────────────────────────────────────
+
+function FloatInput({ id, name, label, type = 'text', value, onChange, required, isTextarea }) {
+  const Tag = isTextarea ? 'textarea' : 'input'
+  return (
+    <div className="form-group">
+      <Tag
+        id={id}
+        name={name}
+        type={isTextarea ? undefined : type}
+        value={value}
+        onChange={onChange}
+        required={required}
+        placeholder=" "
+        rows={isTextarea ? 6 : undefined}
+        className={`form-input ${isTextarea ? 'textarea-input' : ''}`}
+        aria-label={label}
+        style={{ fontFamily: 'var(--font-body)' }}
+      />
+      <label htmlFor={id} className="form-label">{label}</label>
+    </div>
+  )
+}
 
 function Contact() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
-  })
-  
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY })
-    }
-    window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
-  }, [])
+  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' })
+  const [submitted, setSubmitted] = useState(false)
+  const [sending, setSending]     = useState(false)
+  const [error, setError]         = useState(null)
+  const [faqOpen, setFaqOpen]     = useState(null)
+  const formRef = useRef(null)
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
-  }
+  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value })
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // Handle form submission here
-    console.log('Form submitted:', formData)
-    alert('Thank you for your message! I will get back to you soon.')
+    setSending(true)
+    setError(null)
+
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          name:    formData.name,
+          email:   formData.email,
+          subject: formData.subject,
+          message: formData.message,
+          reply_to: formData.email,
+        },
+        EMAILJS_PUBLIC_KEY
+      )
+      setSubmitted(true)
+      setFormData({ name: '', email: '', subject: '', message: '' })
+      setTimeout(() => setSubmitted(false), 6000)
+    } catch (err) {
+      console.error('EmailJS error:', err)
+      setError('Something went wrong. Email me directly at guptaritika569@gmail.com')
+    } finally {
+      setSending(false)
+    }
   }
+
+  const faqs = [
+    { q: 'What does a typical project look like with you?', a: 'We start with a discovery call — you tell me what you\'re building and why it matters. I scope the work, share a proposal, and we iterate from there. No surprise pivots.' },
+    { q: 'What\'s your design process?', a: 'Research first, always. I map user goals against business goals before touching Figma. Wireframes → feedback → high-fidelity → handoff. The prototype you see is one the team can actually build.' },
+    { q: 'Do you work with clients outside India?', a: 'Yes — most of my project communication happens async. I adapt to your timezone for calls and use tools like Notion and Figma for transparent progress tracking.' },
+    { q: 'How do you price projects?', a: 'Scope and timeline drive pricing. I offer fixed-price project quotes and hourly arrangements for ongoing work. Reach out with what you\'re building and I\'ll send a tailored estimate.' },
+    { q: 'What happens after the project is delivered?', a: 'I offer a 2-week support window on all projects — bug fixes, design adjustments, handoff questions. Extended retainers are available for ongoing work.' },
+  ]
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white pt-16 relative overflow-hidden">
-      {/* Animated Background with Cursor */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div 
-          className="absolute w-[500px] h-[500px] bg-purple-500/20 rounded-full blur-[120px] transition-all duration-300 ease-out"
-          style={{
-            left: mousePosition.x - 250,
-            top: mousePosition.y - 250,
-          }}
-        />
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-pink-500/10 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-orange-500/10 rounded-full blur-[120px] animate-pulse delay-75" />
+    <div
+      className="min-h-screen relative overflow-hidden"
+      style={{ paddingTop: 80, fontFamily: 'var(--font-body)', color: 'var(--text-primary)' }}
+    >
+      {/* Ambient bg */}
+      <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 0 }}>
+        <div style={{
+          position: 'absolute', top: 0, right: 0,
+          width: 600, height: 600,
+          background: 'radial-gradient(circle, rgba(201,169,110,0.04) 0%, transparent 70%)',
+          filter: 'blur(60px)',
+        }} />
+        <div style={{
+          position: 'absolute', bottom: 0, left: 0,
+          width: 500, height: 500,
+          background: 'radial-gradient(circle, rgba(138,117,96,0.03) 0%, transparent 70%)',
+          filter: 'blur(60px)',
+        }} />
       </div>
 
-      {/* Hero Section */}
-      <section className="relative py-16">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <div className="inline-block px-4 py-2 bg-purple-500/10 border border-purple-500/20 rounded-full text-purple-400 text-sm mb-6">
-            Get In Touch
-          </div>
-          <h1 className="text-5xl md:text-7xl font-bold mb-4">
-            Let's Work
-            <span className="block bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
-              Together
-            </span>
-          </h1>
-          <p className="text-xl text-slate-400 max-w-3xl mx-auto mb-6">
-            I'm always excited to discuss new projects, creative ideas, or opportunities to bring your vision to life. Whether you need UI/UX design, frontend development, or a complete solution, let's connect and create something exceptional.
-          </p>
-        </div>
-      </section>
-
-      {/* Contact Info & Form */}
-      <section className="pb-16">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-12">
-            {/* Contact Information */}
-            <div>
-              <h2 className="text-3xl font-bold mb-8">Contact Information</h2>
-              <p className="text-slate-400 mb-12 leading-relaxed">
-                Feel free to reach out through any of the following channels. I typically respond within 24 hours on business days.
-              </p>
-              
-              <div className="space-y-6">
-                <div className="p-6 bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-800 hover:border-purple-500/50 transition-all">
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-12 h-12 bg-purple-500/10 border border-purple-500/20 rounded-xl flex items-center justify-center text-purple-400">
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h3 className="font-semibold mb-1">Email</h3>
-                      <p className="text-slate-400">guptaritika569@gmail.com</p>
-                      <p className="text-sm text-slate-500 mt-2">Best for detailed inquiries and project discussions</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="p-6 bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-800 hover:border-pink-500/50 transition-all">
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-12 h-12 bg-pink-500/10 border border-pink-500/20 rounded-xl flex items-center justify-center text-pink-400">
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h3 className="font-semibold mb-1">Phone</h3>
-                      <p className="text-slate-400">+91 9554929098</p>
-                      <p className="text-sm text-slate-500 mt-2">Available Mon-Fri, 10AM-7PM IST</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="p-6 bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-800 hover:border-orange-500/50 transition-all">
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-12 h-12 bg-orange-500/10 border border-orange-500/20 rounded-xl flex items-center justify-center text-orange-400">
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h3 className="font-semibold mb-1">Location</h3>
-                      <p className="text-slate-400">Gorakhpur, UP, India</p>
-                      <p className="text-sm text-slate-500 mt-2">Available for remote work globally</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Social Links */}
-              <div className="mt-12">
-                <h3 className="text-xl font-semibold mb-6">Connect With Me</h3>
-                <div className="flex gap-4">
-                  <a href="https://www.linkedin.com/in/ritika-gupta-523597220" target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-slate-800/50 border border-slate-700 rounded-xl flex items-center justify-center hover:bg-purple-500/10 hover:border-purple-500/20 transition-all">
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z"/>
-                    </svg>
-                  </a>
-                  <a href="https://github.com/ritikagupta9554" target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-slate-800/50 border border-slate-700 rounded-xl flex items-center justify-center hover:bg-purple-500/10 hover:border-purple-500/20 transition-all">
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                    </svg>
-                  </a>
-                  {/* <a href="#" className="w-12 h-12 bg-slate-800/50 border border-slate-700 rounded-xl flex items-center justify-center hover:bg-purple-500/10 hover:border-purple-500/20 transition-all">
-                  
-                  </a> */}
-                  <a href="mailto:ritikagupta9554@gmail.com" className="w-12 h-12 bg-slate-800/50 border border-slate-700 rounded-xl flex items-center justify-center hover:bg-purple-500/10 hover:border-purple-500/20 transition-all">
-                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-                      </svg>
-                  </a>
-                </div>
-              </div>
+      {/* ═══ HERO EMAIL — editorial large text ═══ */}
+      <section style={{ padding: '80px 0 60px', position: 'relative' }}>
+        <div className="container-xl">
+          <ScrollReveal className="reveal">
+            <div className="section-num">04 — Contact</div>
+            <h1 style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+              fontWeight: 400,
+              letterSpacing: '-0.02em',
+              color: 'var(--text-secondary)',
+              marginBottom: 8,
+              lineHeight: 1.2,
+            }}>
+              Have a project in mind?
+            </h1>
+            <div style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+              fontWeight: 500,
+              letterSpacing: '-0.02em',
+              lineHeight: 1.1,
+              marginBottom: 40,
+            }}>
+              Write to me at
             </div>
 
-            {/* Contact Form */}
-            <div>
-              <h2 className="text-3xl font-bold mb-8">Send a Message</h2>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium mb-2">
-                    Full Name *
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl focus:outline-none focus:border-purple-500 transition-colors"
-                    placeholder="John Doe"
-                  />
-                </div>
+            {/* Big hero email link */}
+            <a
+              href="mailto:guptaritika569@gmail.com"
+              style={{
+                display: 'inline-block',
+                fontFamily: 'var(--font-display)',
+                fontSize: 'clamp(1.8rem, 5vw, 4rem)',
+                fontWeight: 600,
+                letterSpacing: '-0.03em',
+                color: 'var(--accent)',
+                textDecoration: 'none',
+                borderBottom: '1px solid rgba(201,169,110,0.25)',
+                paddingBottom: '4px',
+                transition: 'color 0.2s ease, border-color 0.2s ease',
+                lineHeight: 1.1,
+                fontStyle: 'italic',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = '#e8c992'
+                e.currentTarget.style.borderColor = 'rgba(201,169,110,0.6)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = 'var(--accent)'
+                e.currentTarget.style.borderColor = 'rgba(201,169,110,0.25)'
+              }}
+            >
+              guptaritika569@gmail.com
+            </a>
 
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium mb-2">
-                    Email Address *
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl focus:outline-none focus:border-purple-500 transition-colors"
-                    placeholder="john@example.com"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="subject" className="block text-sm font-medium mb-2">
-                    Subject *
-                  </label>
-                  <input
-                    type="text"
-                    id="subject"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl focus:outline-none focus:border-purple-500 transition-colors"
-                    placeholder="Project Inquiry"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium mb-2">
-                    Message *
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    rows="6"
-                    className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl focus:outline-none focus:border-purple-500 transition-colors resize-none"
-                    placeholder="Tell me about your project..."
-                  ></textarea>
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all"
-                >
-                  Send Message
-                </button>
-
-                <p className="text-sm text-slate-400 text-center">
-                  By submitting this form, you agree to our privacy policy.
-                </p>
-              </form>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="py-16 px-6 bg-slate-900/50">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-10">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Frequently Asked Questions</h2>
-            <p className="text-xl text-slate-400">
-              Quick answers to common questions about working with me
+            <p style={{
+              color: 'var(--text-muted)',
+              fontSize: '13px',
+              fontFamily: 'var(--font-mono)',
+              letterSpacing: '0.06em',
+              marginTop: 20,
+            }}>
+              OR USE THE FORM BELOW — I RESPOND WITHIN 24 HOURS
             </p>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      <div className="container-xl">
+        <div className="editorial-divider" />
+      </div>
+
+      {/* ═══ CONTACT BODY ═══ */}
+      <section style={{ padding: '60px 0 80px', position: 'relative' }}>
+        <div className="container-xl">
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1.4fr)',
+            gap: '80px',
+            alignItems: 'start',
+          }}>
+
+            {/* LEFT: Contact info */}
+            <ScrollReveal className="reveal-left">
+              <h2 style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: '1.4rem',
+                fontWeight: 500,
+                marginBottom: 8,
+                letterSpacing: '-0.01em',
+                color: 'var(--text-primary)',
+              }}>
+                Ways to reach me
+              </h2>
+              <p style={{ color: 'var(--text-secondary)', marginBottom: 40, fontSize: '14px', lineHeight: 1.8 }}>
+                I'm reachable Mon–Fri, 10AM–7PM IST.
+                For urgent requests, email works fastest.
+              </p>
+
+              {/* Contact rows — clean table style */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 0, marginBottom: 48 }}>
+                {[
+                  { label: 'Email', value: 'guptaritika569@gmail.com', href: 'mailto:guptaritika569@gmail.com' },
+                  { label: 'Phone', value: '+91 9554929098', href: 'tel:+919554929098' },
+                  { label: 'Location', value: 'Noida, UP, India — Remote available', href: null },
+                ].map(({ label, value, href }) => {
+                  const Wrapper = href ? 'a' : 'div'
+                  return (
+                    <Wrapper
+                      key={label}
+                      href={href || undefined}
+                      target={href?.startsWith('mailto') ? undefined : href ? '_blank' : undefined}
+                      rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'flex-start',
+                        padding: '16px 0',
+                        borderBottom: '1px solid var(--border-subtle)',
+                        textDecoration: 'none',
+                        color: 'inherit',
+                        cursor: href ? 'pointer' : 'default',
+                        transition: 'color 0.2s ease',
+                      }}
+                      onMouseEnter={(e) => { if (href) e.currentTarget.style.color = 'var(--accent)' }}
+                      onMouseLeave={(e) => { if (href) e.currentTarget.style.color = 'inherit' }}
+                    >
+                      <span style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', letterSpacing: '0.08em', textTransform: 'uppercase', paddingTop: 2 }}>{label}</span>
+                      <span style={{ fontSize: '14px', color: 'var(--text-secondary)', textAlign: 'right', maxWidth: '60%', lineHeight: 1.5 }}>{value}</span>
+                    </Wrapper>
+                  )
+                })}
+              </div>
+
+              {/* Social links */}
+              <div>
+                <div style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 20 }}>
+                  Online
+                </div>
+                <div style={{ display: 'flex', gap: 10 }}>
+                  {[
+                    { name: 'Website', href: 'https://www.guptaritika.in/' },
+                    { name: 'LinkedIn', href: 'https://www.linkedin.com/in/ritika-gupta-523597220' },
+                    { name: 'GitHub', href: 'https://github.com/ritikagupta9554' },
+                    { name: 'Email', href: 'mailto:guptaritika569@gmail.com' },
+                  ].map(({ name, href }) => (
+                    <a
+                      key={name}
+                      href={href}
+                      target={href.startsWith('http') ? '_blank' : undefined}
+                      rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                      aria-label={name}
+                      style={{
+                        padding: '8px 16px',
+                        border: '1px solid var(--border-subtle)',
+                        fontSize: '11px',
+                        fontFamily: 'var(--font-mono)',
+                        color: 'var(--text-muted)',
+                        textDecoration: 'none',
+                        letterSpacing: '0.06em',
+                        textTransform: 'uppercase',
+                        transition: 'color 0.2s ease, border-color 0.2s ease',
+                        cursor: 'pointer',
+                      }}
+                      onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--accent)'; e.currentTarget.style.borderColor = 'rgba(201,169,110,0.35)' }}
+                      onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-muted)'; e.currentTarget.style.borderColor = 'var(--border-subtle)' }}
+                    >
+                      {name}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </ScrollReveal>
+
+            {/* RIGHT: Form */}
+            <ScrollReveal className="reveal-right">
+              <h2 style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: '1.4rem',
+                fontWeight: 500,
+                marginBottom: 32,
+                letterSpacing: '-0.01em',
+                color: 'var(--text-primary)',
+              }}>
+                Send a message
+              </h2>
+
+              {submitted ? (
+                <div style={{
+                  padding: '48px 32px',
+                  textAlign: 'left',
+                  border: '1px solid rgba(109,189,139,0.2)',
+                  background: 'rgba(109,189,139,0.03)',
+                }}>
+                  <div style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: '2rem',
+                    fontWeight: 400,
+                    marginBottom: 12,
+                    color: '#6dbd8b',
+                    letterSpacing: '-0.02em',
+                  }}>
+                    Message received.
+                  </div>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '14px', lineHeight: 1.8 }}>
+                    I'll get back to you within 24 hours.
+                  </p>
+                </div>
+              ) : (
+                <form ref={formRef} onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                  <FloatInput id="name" name="name" label="Full Name *" value={formData.name} onChange={handleChange} required />
+                  <FloatInput id="email" name="email" label="Email Address *" type="email" value={formData.email} onChange={handleChange} required />
+                  <FloatInput id="subject" name="subject" label="Subject *" value={formData.subject} onChange={handleChange} required />
+                  <FloatInput id="message" name="message" label="Your Message *" value={formData.message} onChange={handleChange} required isTextarea />
+
+                  <button
+                    type="submit"
+                    className="btn-primary"
+                    id="send-message-btn"
+                    disabled={sending}
+                    style={{
+                      width: '100%',
+                      justifyContent: 'center',
+                      marginTop: 8,
+                      opacity: sending ? 0.75 : 1,
+                      cursor: sending ? 'not-allowed' : 'pointer',
+                    }}
+                  >
+                    <span style={{ display: 'flex', alignItems: 'center', gap: 10, justifyContent: 'center' }}>
+                      {sending ? (
+                        <>
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            style={{ animation: 'spin-slow 1s linear infinite' }}>
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                          </svg>
+                          Sending…
+                        </>
+                      ) : (
+                        <>
+                          Send Message
+                          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                          </svg>
+                        </>
+                      )}
+                    </span>
+                  </button>
+
+                  {error && (
+                    <div style={{
+                      padding: '14px 16px',
+                      background: 'rgba(239,68,68,0.05)',
+                      border: '1px solid rgba(239,68,68,0.2)',
+                      fontSize: '13px',
+                      color: '#fca5a5',
+                      lineHeight: 1.6,
+                    }}>
+                      {error}
+                    </div>
+                  )}
+                </form>
+              )}
+            </ScrollReveal>
           </div>
-          <div className="space-y-6">
-            <div className="p-6 bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-800">
-              <h3 className="text-xl font-bold mb-3">What is your typical project timeline?</h3>
-              <p className="text-slate-400 leading-relaxed">
-                Project timelines vary based on scope and complexity. A typical web design project takes 4-8 weeks, while a mobile app design can take 6-12 weeks. I'll provide a detailed timeline during our initial consultation.
-              </p>
-            </div>
-            <div className="p-6 bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-800">
-              <h3 className="text-xl font-bold mb-3">What is your design process?</h3>
-              <p className="text-slate-400 leading-relaxed">
-                I follow a user-centered design approach: Research & Discovery → Strategy & Planning → Design & Prototype → Test & Iterate. This ensures the final product meets both user needs and business goals.
-              </p>
-            </div>
-            <div className="p-6 bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-800">
-              <h3 className="text-xl font-bold mb-3">Do you work with clients remotely?</h3>
-              <p className="text-slate-400 leading-relaxed">
-                Yes! I work with clients worldwide. I use video calls, project management tools, and collaborative design platforms to ensure smooth communication and project delivery regardless of location.
-              </p>
-            </div>
-            <div className="p-6 bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-800">
-              <h3 className="text-xl font-bold mb-3">What are your rates?</h3>
-              <p className="text-slate-400 leading-relaxed">
-                I offer both hourly and project-based pricing depending on the scope. Rates vary based on project complexity and timeline. Contact me for a customized quote based on your specific needs.
-              </p>
-            </div>
-            <div className="p-6 bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-800">
-              <h3 className="text-xl font-bold mb-3">Do you offer ongoing support after project completion?</h3>
-              <p className="text-slate-400 leading-relaxed">
-                Yes, I offer maintenance and support packages for completed projects. This includes minor updates, bug fixes, and design improvements to ensure your product continues to perform optimally.
-              </p>
-            </div>
+        </div>
+      </section>
+
+      {/* ═══ FAQ ═══ */}
+      <section style={{ padding: '60px 0 100px', position: 'relative' }}>
+        <div className="container-xl" style={{ maxWidth: 800 }}>
+          <ScrollReveal className="reveal" style={{ marginBottom: 48 }}>
+            <div className="section-num">05 — Common Questions</div>
+            <h2 style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(1.8rem, 3.5vw, 2.5rem)',
+              fontWeight: 500,
+              letterSpacing: '-0.02em',
+              color: 'var(--text-primary)',
+            }}>
+              What people usually ask
+            </h2>
+          </ScrollReveal>
+
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            {faqs.map((faq, i) => (
+              <ScrollReveal key={i} className="reveal" delay={`delay-${i * 75}`}>
+                <div
+                  style={{
+                    overflow: 'hidden',
+                    cursor: 'pointer',
+                    borderBottom: '1px solid var(--border-subtle)',
+                    transition: 'border-color 0.3s ease',
+                    borderBottomColor: faqOpen === i ? 'rgba(201,169,110,0.25)' : 'var(--border-subtle)',
+                  }}
+                  onClick={() => setFaqOpen(faqOpen === i ? null : i)}
+                  role="button"
+                  aria-expanded={faqOpen === i}
+                >
+                  <div style={{
+                    padding: '22px 0',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    gap: 16,
+                  }}>
+                    <h3 style={{
+                      fontSize: '15px',
+                      fontWeight: 500,
+                      color: faqOpen === i ? 'var(--accent)' : 'var(--text-primary)',
+                      transition: 'color 0.3s ease',
+                      fontFamily: 'var(--font-body)',
+                      margin: 0,
+                    }}>
+                      {faq.q}
+                    </h3>
+                    <div style={{
+                      width: 24, height: 24,
+                      border: '1px solid var(--border-subtle)',
+                      flexShrink: 0,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      transition: 'all 0.3s ease',
+                      borderColor: faqOpen === i ? 'rgba(201,169,110,0.35)' : 'var(--border-subtle)',
+                      color: faqOpen === i ? 'var(--accent)' : 'var(--text-muted)',
+                    }}>
+                      <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        style={{ transform: faqOpen === i ? 'rotate(180deg)' : 'none', transition: 'transform 0.3s ease' }}>
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div style={{
+                    maxHeight: faqOpen === i ? 200 : 0,
+                    overflow: 'hidden',
+                    transition: 'max-height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                  }}>
+                    <p style={{
+                      padding: '0 0 22px',
+                      color: 'var(--text-secondary)',
+                      fontSize: '14px',
+                      lineHeight: 1.85,
+                      fontFamily: 'var(--font-body)',
+                    }}>
+                      {faq.a}
+                    </p>
+                  </div>
+                </div>
+              </ScrollReveal>
+            ))}
           </div>
         </div>
       </section>
