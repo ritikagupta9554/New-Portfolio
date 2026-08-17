@@ -3,6 +3,7 @@ import Header from './components/Header'
 import Footer from './components/Footer'
 import Cursor from './components/Cursor'
 import ParticleBackground from './components/ParticleBackground'
+import ScrollToTop from './components/ScrollToTop'
 import Home from './pages/Home'
 import About from './pages/About'
 import Projects from './pages/Projects'
@@ -18,6 +19,7 @@ function App() {
 
         {/* App structure */}
         <div style={{ position: 'relative', zIndex: 1 }}>
+          <ScrollToTop />
           <Header />
           <Routes>
             <Route path="/" element={<Home />} />
