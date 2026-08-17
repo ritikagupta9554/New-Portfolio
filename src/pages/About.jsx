@@ -58,7 +58,7 @@ function About() {
     ],
   }
 
-  const [activeSkillTab, setActiveSkillTab] = useState('Design')
+  const [activeSkillTab, setActiveSkillTab] = useState('Design & UI/UX')
 
   const experience = [
     {
@@ -177,17 +177,17 @@ function About() {
       </div>
 
       {/* ═══ HERO ═══ */}
-      <section style={{ padding: '80px 0 60px', position: 'relative' }}>
+      <section style={{ padding: '60px 0', position: 'relative' }}>
         <div className="container-xl">
           {/* Asymmetric: text-heavy left, visual right */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.2fr) minmax(0, 0.8fr)', gap: '80px', alignItems: 'center' }}>
+          <div className="about-hero-grid">
 
             {/* Left: text */}
             <ScrollReveal className="reveal-left">
               <div className="section-num">02 — About Me</div>
               <h1 style={{
                 fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
+                fontSize: 'clamp(2.4rem, 5vw, 4.5rem)',
                 fontWeight: 500,
                 marginBottom: 24,
                 lineHeight: 1.05,
@@ -216,12 +216,12 @@ function About() {
                 ].map(({ val, label }, i) => (
                   <div key={label} style={{
                     display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                    padding: '20px 0',
+                    padding: '16px 0',
                     borderBottom: '1px solid var(--border-subtle)',
                   }}>
                     <span style={{
                       fontFamily: 'var(--font-display)',
-                      fontSize: '2.8rem',
+                      fontSize: 'clamp(2rem, 4vw, 2.8rem)',
                       fontWeight: 300,
                       letterSpacing: '-0.04em',
                       color: i === 0 ? 'var(--accent)' : 'var(--text-primary)',
@@ -237,23 +237,23 @@ function About() {
       </section>
 
       {/* ═══ CORE PRINCIPLES ═══ */}
-      <section style={{ padding: '60px 0' }}>
+      <section style={{ padding: '40px 0' }}>
         <div className="container-xl">
-          <div className="editorial-divider" style={{ marginBottom: 56 }} />
-          <ScrollReveal className="reveal" style={{ marginBottom: 40 }}>
+          <div className="editorial-divider" style={{ marginBottom: 48 }} />
+          <ScrollReveal className="reveal" style={{ marginBottom: 36 }}>
             <div className="section-num">— Philosophy</div>
             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', fontWeight: 500, letterSpacing: '-0.02em', color: 'var(--text-primary)', margin: 0 }}>
               How I approach my craft
             </h2>
           </ScrollReveal>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
+          <div className="principles-grid">
             {principles.map((p, i) => (
               <ScrollReveal key={p.title} className="reveal" delay={`delay-${i * 100}`}>
                 <div
                   className="solid-card"
                   style={{
-                    padding: '36px 28px',
+                    padding: 'clamp(24px, 4vw, 36px) clamp(20px, 3vw, 28px)',
                     height: '100%',
                     position: 'relative',
                   }}
@@ -269,7 +269,7 @@ function About() {
                   </div>
                   <h3 style={{
                     fontFamily: 'var(--font-display)',
-                    fontSize: '1.3rem',
+                    fontSize: '1.25rem',
                     fontWeight: 500,
                     marginBottom: 12,
                     color: 'var(--text-primary)',
@@ -288,14 +288,14 @@ function About() {
               </ScrollReveal>
             ))}
           </div>
-          <div className="editorial-divider" style={{ marginTop: 56 }} />
+          <div className="editorial-divider" style={{ marginTop: 48 }} />
         </div>
       </section>
 
       {/* ═══ SKILLS & TOOLKIT ═══ */}
-      <section style={{ padding: '60px 0' }}>
+      <section style={{ padding: '40px 0' }}>
         <div className="container-xl">
-          <ScrollReveal className="reveal" style={{ marginBottom: 48 }}>
+          <ScrollReveal className="reveal" style={{ marginBottom: 40 }}>
             <div className="section-num">— Toolkit</div>
             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', fontWeight: 500, letterSpacing: '-0.02em', color: 'var(--text-primary)', margin: 0 }}>
               Skills &amp; proficiency
@@ -303,7 +303,7 @@ function About() {
           </ScrollReveal>
 
           {/* Skill tabs */}
-          <div style={{ display: 'flex', gap: 8, marginBottom: 40, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: 8, marginBottom: 36, flexWrap: 'wrap' }}>
             {Object.keys(skills).map((tab) => (
               <button
                 key={tab}
@@ -318,12 +318,7 @@ function About() {
 
           {/* Skill bars */}
           <ScrollReveal className="reveal">
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-              gap: '0 60px',
-              maxWidth: 860,
-            }}>
+            <div className="skills-grid">
               {skills[activeSkillTab].map(({ name, level }, i) => (
                 <SkillBar key={name} name={name} level={level} delay={`${i * 100}ms`} />
               ))}
@@ -331,8 +326,8 @@ function About() {
           </ScrollReveal>
 
           {/* Tool badges grid */}
-          <ScrollReveal className="reveal" style={{ marginTop: 56 }}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(110px, 1fr))', gap: 1 }}>
+          <ScrollReveal className="reveal" style={{ marginTop: 48 }}>
+            <div className="tools-grid">
               {[
                 { name: 'Figma' }, { name: 'Canva' }, { name: 'Wireframing' }, { name: 'Prototyping' },
                 { name: 'Design Systems' }, { name: 'User Flows' }, { name: 'React.js' }, { name: 'JavaScript' },
@@ -341,7 +336,7 @@ function About() {
                 <div
                   key={name}
                   style={{
-                    padding: '18px 8px',
+                    padding: '16px 8px',
                     textAlign: 'center',
                     background: '#0a0a0a',
                     border: '1px solid var(--border-subtle)',
@@ -360,9 +355,9 @@ function About() {
       </section>
 
       {/* ═══ EXPERIENCE TIMELINE ═══ */}
-      <section style={{ padding: '80px 0' }}>
+      <section style={{ padding: '60px 0' }}>
         <div className="container-xl">
-          <ScrollReveal className="reveal" style={{ marginBottom: 56 }}>
+          <ScrollReveal className="reveal" style={{ marginBottom: 48 }}>
             <div className="section-num">— Experience</div>
             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', fontWeight: 500, letterSpacing: '-0.02em', color: 'var(--text-primary)', margin: 0 }}>
               Where I've worked
@@ -376,11 +371,11 @@ function About() {
                   display: 'flex',
                   gap: 0,
                   borderBottom: i < experience.length - 1 ? '1px solid var(--border-subtle)' : 'none',
-                  paddingBottom: 40,
-                  marginBottom: 40,
+                  paddingBottom: 36,
+                  marginBottom: 36,
                 }}>
                   {/* Timeline connector */}
-                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginRight: 28, paddingTop: 4 }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginRight: 'clamp(16px, 3vw, 28px)', paddingTop: 4 }}>
                     <div className="timeline-dot" />
                     {i < experience.length - 1 && <div className="timeline-line" />}
                   </div>
@@ -393,7 +388,7 @@ function About() {
                         {exp.duration}
                       </span>
                     </div>
-                    <p style={{ color: 'var(--text-muted)', fontSize: '12px', fontFamily: 'var(--font-mono)', letterSpacing: '0.06em', marginBottom: 20, textTransform: 'uppercase' }}>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '12px', fontFamily: 'var(--font-mono)', letterSpacing: '0.06em', marginBottom: 16, textTransform: 'uppercase' }}>
                       {exp.company} — {exp.location}
                     </p>
                     <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -413,9 +408,9 @@ function About() {
       </section>
 
       {/* ═══ EDUCATION ═══ */}
-      <section style={{ padding: '80px 0' }}>
+      <section style={{ padding: '60px 0' }}>
         <div className="container-xl">
-          <ScrollReveal className="reveal" style={{ marginBottom: 56 }}>
+          <ScrollReveal className="reveal" style={{ marginBottom: 48 }}>
             <div className="section-num">— Education</div>
             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', fontWeight: 500, letterSpacing: '-0.02em', color: 'var(--text-primary)', margin: 0 }}>
               Academic background
@@ -426,9 +421,9 @@ function About() {
               <ScrollReveal key={edu.degree} className="reveal" delay={`delay-${i * 100}`}>
                 <div style={{
                   display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start',
-                  padding: '28px 0',
+                  padding: '24px 0',
                   borderBottom: i < education.length - 1 ? '1px solid var(--border-subtle)' : 'none',
-                  gap: 24,
+                  gap: 16,
                   flexWrap: 'wrap',
                 }}>
                   <div>
@@ -449,15 +444,16 @@ function About() {
       </section>
 
       {/* ═══ TESTIMONIALS ═══ */}
-      <section style={{ padding: '80px 0 100px' }}>
+      <section style={{ padding: '60px 0 100px' }}>
         <div className="container-xl">
-          <ScrollReveal className="reveal" style={{ marginBottom: 56 }}>
+          <ScrollReveal className="reveal" style={{ marginBottom: 48 }}>
             <div className="section-num">— Testimonials</div>
             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', fontWeight: 500, letterSpacing: '-0.02em', color: 'var(--text-primary)', margin: 0 }}>
               Client &amp; colleague reviews
             </h2>
           </ScrollReveal>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
+          <div className="principles-grid">
+
             {testimonials.map((t, i) => (
               <ScrollReveal key={t.name} className="reveal" delay={`delay-${i * 150}`}>
                 <div style={{

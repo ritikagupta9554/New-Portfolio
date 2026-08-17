@@ -125,23 +125,10 @@ function Contact() {
               Write to me at
             </div>
 
-            {/* Big hero email link */}
+            {/* Big hero email link with word-break and clamp */}
             <a
               href="mailto:guptaritika569@gmail.com"
-              style={{
-                display: 'inline-block',
-                fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(1.8rem, 5vw, 4rem)',
-                fontWeight: 600,
-                letterSpacing: '-0.03em',
-                color: 'var(--accent)',
-                textDecoration: 'none',
-                borderBottom: '1px solid rgba(201,169,110,0.25)',
-                paddingBottom: '4px',
-                transition: 'color 0.2s ease, border-color 0.2s ease',
-                lineHeight: 1.1,
-                fontStyle: 'italic',
-              }}
+              className="contact-hero-email"
               onMouseEnter={(e) => {
                 e.currentTarget.style.color = '#e8c992'
                 e.currentTarget.style.borderColor = 'rgba(201,169,110,0.6)'
@@ -174,12 +161,7 @@ function Contact() {
       {/* ═══ CONTACT BODY ═══ */}
       <section style={{ padding: '60px 0 80px', position: 'relative' }}>
         <div className="container-xl">
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1.4fr)',
-            gap: '80px',
-            alignItems: 'start',
-          }}>
+          <div className="contact-grid">
 
             {/* LEFT: Contact info */}
             <ScrollReveal className="reveal-left">

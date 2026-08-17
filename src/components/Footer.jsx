@@ -17,9 +17,9 @@ function Footer() {
 
   return (
     <footer style={{ position: 'relative', background: '#0a0a0a', fontFamily: 'var(--font-body)', borderTop: '1px solid var(--border-subtle)' }}>
-      <div className="container-xl" style={{ padding: '56px 32px 32px' }}>
+      <div className="container-xl" style={{ padding: 'clamp(36px, 6vw, 56px) clamp(16px, 4vw, 32px) clamp(24px, 4vw, 32px)' }}>
         {/* Main grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '48px', marginBottom: 48 }}>
+        <div className="footer-grid">
 
           {/* Brand */}
           <div>
@@ -113,7 +113,7 @@ function Footer() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               <a
                 href="mailto:guptaritika569@gmail.com"
-                style={{ color: 'var(--text-muted)', fontSize: '13px', textDecoration: 'none', transition: 'color 0.2s ease', cursor: 'pointer' }}
+                style={{ color: 'var(--text-muted)', fontSize: '13px', textDecoration: 'none', transition: 'color 0.2s ease', cursor: 'pointer', wordBreak: 'break-all' }}
                 onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--accent)' }}
                 onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-muted)' }}
               >
@@ -133,9 +133,9 @@ function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: 24, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
-          <p style={{ color: 'var(--text-muted)', fontSize: '12px', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}>
-            © 2025 Ritika Gupta — Designed &amp; built by me.
+        <div className="footer-bottom-bar">
+          <p style={{ color: 'var(--text-muted)', fontSize: '12px', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em', margin: 0 }}>
+            © 2026 Ritika Gupta — Designed &amp; built by me.
           </p>
           <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
             <div className="status-dot" style={{ width: 5, height: 5 }} />

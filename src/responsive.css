@@ -361,11 +361,6 @@
   h1 {
     font-size: clamp(1.25rem, 5vw, 1.75rem);
   }
-
-  .flex.flex-col {
-    max-height: 80vh;
-    overflow-y: auto;
-  }
 }
 
 /* Portrait orientation optimizations */
@@ -491,14 +486,8 @@
    ============================================ */
 @supports (padding: max(0px)) {
   body {
-    padding-left: max(1rem, env(safe-area-inset-left));
-    padding-right: max(1rem, env(safe-area-inset-right));
-    padding-bottom: max(1rem, env(safe-area-inset-bottom));
-  }
-
-  .px-6 {
-    padding-left: max(1.5rem, env(safe-area-inset-left));
-    padding-right: max(1.5rem, env(safe-area-inset-right));
+    /* Only apply bottom safe area — avoid adding side padding that causes overflow */
+    padding-bottom: max(0px, env(safe-area-inset-bottom));
   }
 }
 

@@ -177,18 +177,13 @@ function Home() {
         <div className="container-xl w-full">
 
           {/* Editorial asymmetric grid: text takes 60%, card takes 40% */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'minmax(0, 1.1fr) minmax(0, 0.9fr)',
-            gap: '80px',
-            alignItems: 'center',
-          }}>
+          <div className="editorial-hero-grid">
 
             {/* LEFT: Text block — NOT centered */}
             <div className="animate-fade-in">
 
               {/* Availability tag */}
-              <div className="status-badge" style={{ marginBottom: 40 }}>
+              <div className="status-badge" style={{ marginBottom: 32 }}>
                 <span className="status-dot" />
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.08em' }}>
                   OPEN TO WORK — REMOTE &amp; ON-SITE
@@ -211,12 +206,13 @@ function Home() {
                 </div>
                 <h1 style={{
                   fontFamily: 'var(--font-display)',
-                  fontSize: 'clamp(4rem, 8vw, 8rem)',
+                  fontSize: 'clamp(2.8rem, 8vw, 7.5rem)',
                   fontWeight: 600,
-                  lineHeight: 0.9,
+                  lineHeight: 0.92,
                   letterSpacing: '-0.03em',
                   color: 'var(--text-primary)',
                   margin: 0,
+                  wordBreak: 'break-word',
                 }}>
                   Ritika<br />
                   <span style={{ color: 'var(--accent)', fontWeight: 300, fontStyle: 'italic' }}>Gupta.</span>
@@ -225,13 +221,14 @@ function Home() {
 
               {/* Typewriter role */}
               <div style={{
-                fontSize: 'clamp(1rem, 2vw, 1.2rem)',
+                fontSize: 'clamp(0.95rem, 2vw, 1.2rem)',
                 color: 'var(--text-secondary)',
-                marginBottom: 32,
+                marginBottom: 28,
                 fontWeight: 400,
-                height: '1.8rem',
+                minHeight: '1.8rem',
                 display: 'flex',
                 alignItems: 'center',
+                flexWrap: 'wrap',
                 gap: 4,
                 fontFamily: 'var(--font-mono)',
                 letterSpacing: '0.02em',
@@ -245,15 +242,14 @@ function Home() {
                 fontSize: 'clamp(0.9rem, 1.5vw, 1rem)',
                 color: 'var(--text-secondary)',
                 lineHeight: 1.85,
-                marginBottom: 44,
-                maxWidth: 460,
+                marginBottom: 36,
+                maxWidth: 480,
               }}>
-                I design user-centric interfaces and compelling brand visuals.
-                Currently based in Noida, UP — working with clients worldwide.
+                UI/UX Designer &amp; Frontend Developer. I design pixel-perfect interfaces in Figma and bring them to life with React, creating seamless user experiences from concept to code.
               </p>
 
               {/* Skill tags — restrained, mono */}
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 44 }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 36 }}>
                 {skills.map((skill) => (
                   <span key={skill} className="badge">{skill}</span>
                 ))}
@@ -279,12 +275,12 @@ function Home() {
             <div
               ref={profileRef}
               className="tilt-card animate-fade-in-delayed"
-              style={{ maxWidth: 420, margin: '0 auto', transition: 'transform 0.2s ease' }}
+              style={{ width: '100%', maxWidth: 420, margin: '0 auto', transition: 'transform 0.2s ease' }}
             >
               <div
                 className="solid-card"
                 style={{
-                  padding: '48px 36px',
+                  padding: 'clamp(28px, 5vw, 48px) clamp(20px, 4vw, 36px)',
                   textAlign: 'center',
                   position: 'relative',
                   overflow: 'hidden',
@@ -296,16 +292,16 @@ function Home() {
 
                 <div style={{ position: 'relative' }}>
                   {/* Avatar — simple amber frame, no orbiting dots */}
-                  <div style={{ position: 'relative', display: 'inline-block', marginBottom: 28 }}>
+                  <div style={{ position: 'relative', display: 'inline-block', marginBottom: 24 }}>
                     <div style={{
-                      width: 120, height: 120,
+                      width: 'clamp(90px, 15vw, 120px)', height: 'clamp(90px, 15vw, 120px)',
                       background: '#1a1710',
                       border: '1px solid rgba(201,169,110,0.3)',
                       borderRadius: '50%',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: '2.8rem',
+                      fontSize: 'clamp(2rem, 5vw, 2.8rem)',
                       fontFamily: 'var(--font-display)',
                       fontWeight: 600,
                       color: 'var(--accent)',
@@ -316,7 +312,7 @@ function Home() {
                     {/* Available indicator */}
                     <div style={{
                       position: 'absolute', bottom: 6, right: 6,
-                      width: 16, height: 16,
+                      width: 14, height: 14,
                       background: '#6dbd8b',
                       borderRadius: '50%',
                       border: '2px solid #141414',
@@ -325,7 +321,7 @@ function Home() {
 
                   <h2 style={{
                     fontFamily: 'var(--font-display)',
-                    fontSize: '1.6rem',
+                    fontSize: 'clamp(1.3rem, 3vw, 1.6rem)',
                     fontWeight: 500,
                     marginBottom: 4,
                     color: 'var(--text-primary)',
@@ -337,11 +333,11 @@ function Home() {
                     color: 'var(--accent)',
                     fontSize: '12px',
                     fontFamily: 'var(--font-mono)',
-                    marginBottom: 32,
+                    marginBottom: 24,
                     letterSpacing: '0.08em',
                     textTransform: 'uppercase',
                   }}>
-                    UI/UX & Graphic Designer
+                    UI/UX Designer · Frontend Dev
                   </p>
 
                   {/* Info rows */}
@@ -356,11 +352,12 @@ function Home() {
                         display: 'flex',
                         justifyContent: 'space-between',
                         alignItems: 'center',
-                        padding: '12px 0',
+                        padding: '10px 0',
                         borderBottom: '1px solid rgba(201,169,110,0.06)',
+                        fontSize: '13px',
                       }}>
                         <span style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>{key}</span>
-                        <span style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>{val}</span>
+                        <span style={{ color: 'var(--text-secondary)' }}>{val}</span>
                       </div>
                     ))}
                   </div>
@@ -372,31 +369,31 @@ function Home() {
       </section>
 
       {/* ═══════════════════ STATS ═══════════════════ */}
-      <section style={{ padding: '60px 0', position: 'relative' }}>
+      <section style={{ padding: '40px 0', position: 'relative' }}>
         <div className="container-xl">
-          <div className="editorial-divider" style={{ marginBottom: 64 }} />
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '40px 60px' }}>
+          <div className="editorial-divider" style={{ marginBottom: 48 }} />
+          <div className="stats-grid">
             {[
-              { number: 1, suffix: '+', label: 'Year Experience' },
-              { number: 15, suffix: '+', label: 'Projects Shipped' },
+              { number: 1, suffix: '+', label: 'Years Experience' },
+              { number: 15, suffix: '+', label: 'Projects Completed' },
               { number: 3, suffix: '', label: 'Companies' },
               { number: 10, suffix: '+', label: 'Technologies' },
             ].map((stat, i) => (
               <StatCard key={stat.label} {...stat} index={i} />
             ))}
           </div>
-          <div className="editorial-divider" style={{ marginTop: 64 }} />
+          <div className="editorial-divider" style={{ marginTop: 48 }} />
         </div>
       </section>
 
       {/* ═══════════════════ SERVICES ═══════════════════ */}
-      <section style={{ padding: '100px 0' }}>
+      <section style={{ padding: '60px 0' }}>
         <div className="container-xl">
-          <ScrollReveal className="reveal" style={{ marginBottom: 64 }}>
+          <ScrollReveal className="reveal" style={{ marginBottom: 48 }}>
             <div className="section-num">02 — Services</div>
             <h2 style={{
               fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(2.2rem, 4vw, 3.5rem)',
+              fontSize: 'clamp(2rem, 4vw, 3.5rem)',
               fontWeight: 500,
               letterSpacing: '-0.02em',
               color: 'var(--text-primary)',
@@ -409,24 +406,20 @@ function Home() {
             </h2>
           </ScrollReveal>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 1 }}>
+          <div className="services-grid">
             {services.map((service, i) => (
               <ScrollReveal key={service.title} className="reveal" delay={`delay-${i * 100}`}>
                 <div
                   className="solid-card"
                   style={{
-                    padding: '40px 32px',
-                    borderRadius: 0,
+                    padding: 'clamp(28px, 4vw, 40px) clamp(20px, 3vw, 32px)',
                     position: 'relative',
                     overflow: 'hidden',
-                    borderRight: i < services.length - 1 ? '1px solid var(--border-subtle)' : 'none',
-                    borderTop: 'none',
-                    borderBottom: 'none',
-                    borderLeft: 'none',
                     background: '#0a0a0a',
-                    minHeight: 320,
+                    minHeight: 280,
                     display: 'flex',
                     flexDirection: 'column',
+                    height: '100%',
                   }}
                   onMouseEnter={(e) => { e.currentTarget.style.background = '#111' }}
                   onMouseLeave={(e) => { e.currentTarget.style.background = '#0a0a0a' }}

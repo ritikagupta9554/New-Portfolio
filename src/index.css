@@ -753,142 +753,218 @@ img {
 .container-xl {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 32px;
-}
-
-/* ======================================== */
-/* ======================================== */
-/* NAVIGATION RESPONSIVE HELPERS            */
-/* ======================================== */
-.desktop-nav {
-  display: flex;
-  align-items: center;
-  gap: 32px;
-}
-
-.mobile-nav-toggle {
-  display: none;
-}
-
-@media (max-width: 768px) {
-  .desktop-nav {
-    display: none !important;
-  }
-  .mobile-nav-toggle {
-    display: flex !important;
-  }
-}
-
-/* ======================================== */
-/* MOBILE NAV OVERLAY                       */
-/* ======================================== */
-.mobile-nav-overlay {
-
-  position: fixed;
-  inset: 0;
-  background: rgba(10, 10, 10, 0.98);
-  z-index: 998;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 36px;
-}
-
-.mobile-nav-link {
-  font-family: var(--font-display);
-  font-size: 3rem;
-  font-weight: 300;
-  color: rgba(240, 235, 227, 0.3);
-  transition: color 0.3s ease;
-  text-decoration: none;
-  letter-spacing: -0.02em;
-}
-
-.mobile-nav-link:hover, .mobile-nav-link.active {
-  color: var(--text-primary);
-}
-
-/* ======================================== */
-/* SKILL CATEGORY TABS                      */
-/* ======================================== */
-.skill-tab {
-  padding: 8px 18px;
-  border-radius: 0;
-  font-size: 12px;
-  font-weight: 400;
-  font-family: var(--font-mono);
-  color: var(--text-muted);
-  border: 1px solid transparent;
-  cursor: none;
-  transition: all 0.3s ease;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
-.skill-tab.active {
-  border-color: rgba(201, 169, 110, 0.35);
-  color: var(--accent);
-}
-
-.skill-tab:hover:not(.active) {
-  color: var(--text-secondary);
-  border-color: rgba(201, 169, 110, 0.12);
-}
-
-/* Filter pill for projects */
-.filter-pill {
-  padding: 8px 20px;
-  border-radius: 0;
-  font-size: 12px;
-  font-weight: 400;
-  font-family: var(--font-mono);
-  cursor: none;
-  transition: all 0.3s ease;
-  border: 1px solid rgba(240, 235, 227, 0.08);
-  color: var(--text-muted);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
-.filter-pill.active {
-  background: transparent;
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-.filter-pill:hover:not(.active) {
-  border-color: rgba(201, 169, 110, 0.2);
-  color: var(--text-secondary);
-}
-
-/* ======================================== */
-/* TILT CARD                                */
-/* ======================================== */
-.tilt-card {
-  transform-style: preserve-3d;
-  transition: transform 0.1s ease;
-  will-change: transform;
+  padding: 0 clamp(16px, 4vw, 36px);
+  width: 100%;
 }
 
 /* ======================================== */
 /* EDITORIAL RESPONSIVE GRIDS               */
 /* ======================================== */
-@media (max-width: 900px) {
-  /* Hero 2-col → 1-col */
-  .editorial-hero-grid {
+.editorial-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: clamp(36px, 6vw, 80px);
+  align-items: center;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(24px, 4vw, 60px);
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1px;
+}
+
+.about-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  gap: clamp(36px, 6vw, 80px);
+  align-items: center;
+}
+
+.principles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 0 clamp(24px, 4vw, 60px);
+  max-width: 860px;
+}
+
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 1px;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1px;
+}
+
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1px;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: clamp(36px, 6vw, 80px);
+  align-items: start;
+}
+
+.contact-hero-email {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 4.5vw, 3.8rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(201, 169, 110, 0.25);
+  padding-bottom: 4px;
+  line-height: 1.2;
+  font-style: italic;
+  word-break: break-all;
+  overflow-wrap: anywhere;
+  max-width: 100%;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: clamp(32px, 5vw, 48px);
+  margin-bottom: 48px;
+}
+
+.footer-bottom-bar {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* ======================================== */
+/* RESPONSIVE BREAKPOINTS                   */
+/* ======================================== */
+@media (max-width: 960px) {
+  .editorial-hero-grid,
+  .about-hero-grid,
+  .contact-grid {
     grid-template-columns: 1fr !important;
+    gap: 48px !important;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 32px 24px !important;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 36px !important;
   }
 }
 
-@media (max-width: 640px) {
-  /* Stats 4-col → 2-col */
+@media (max-width: 768px) {
+  html {
+    cursor: auto !important;
+  }
+  
+  *, button, a, input, textarea {
+    cursor: auto !important;
+  }
+
+  .cursor-dot,
+  .cursor-ring {
+    display: none !important;
+  }
+
+  .btn-magnetic,
+  .btn-primary,
+  .btn-outline,
+  .skill-tab,
+  .filter-pill {
+    cursor: pointer !important;
+  }
+
+  .projects-grid {
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)) !important;
+    gap: 16px !important;
+  }
+
+  .services-grid,
+  .process-grid {
+    gap: 16px !important;
+  }
+
+  .services-grid > div > div,
+  .process-grid > div > div {
+    border: 1px solid var(--border-subtle) !important;
+  }
+}
+
+@media (max-width: 600px) {
   .stats-grid {
     grid-template-columns: 1fr 1fr !important;
+    gap: 24px 16px !important;
   }
-  /* Footer 3-col → 1-col */
+
   .footer-grid {
     grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+
+  .footer-bottom-bar {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+  }
+
+  .tools-grid {
+    grid-template-columns: repeat(auto-fill, minmax(85px, 1fr)) !important;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .editorial-hero-grid,
+  .about-hero-grid,
+  .contact-grid {
+    gap: 36px !important;
+  }
+
+  .mobile-nav-link {
+    font-size: 2.2rem !important;
+    gap: 24px !important;
+  }
+}
+
+/* Touch screen cursor reset */
+@media (pointer: coarse) {
+  html, body, *, button, a {
+    cursor: auto !important;
+  }
+  .cursor-dot, .cursor-ring {
+    display: none !important;
   }
 }
 
@@ -901,3 +977,277 @@ img {
     radial-gradient(ellipse at 85% 75%, rgba(138, 117, 96, 0.03) 0%, transparent 50%),
     var(--bg-primary);
 }
+
+/* ======================================== */
+/* HEADER NAVIGATION COMPONENTS             */
+/* ======================================== */
+
+/* Desktop nav: visible by default, hides on mobile */
+.desktop-nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+/* Hamburger toggle: hidden on desktop, visible on mobile */
+.mobile-nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+/* Full-screen mobile overlay */
+.mobile-nav-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: rgba(10, 10, 10, 0.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: clamp(60px, 10vw, 80px) clamp(24px, 6vw, 64px);
+  gap: 8px;
+}
+
+/* Mobile nav links */
+.mobile-nav-link {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 8vw, 3rem);
+  font-weight: 400;
+  color: var(--text-muted);
+  text-decoration: none;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  padding: 8px 0;
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.mobile-nav-link:hover,
+.mobile-nav-link.active {
+  color: var(--accent);
+}
+
+/* ======================================== */
+/* SKILL TABS & FILTER PILLS                */
+/* ======================================== */
+.skill-tab {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 20px;
+  border: 1px solid var(--border-subtle);
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 0;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.skill-tab:hover {
+  color: var(--text-secondary);
+  border-color: rgba(201, 169, 110, 0.3);
+}
+
+.skill-tab.active {
+  background: rgba(201, 169, 110, 0.08);
+  border-color: rgba(201, 169, 110, 0.4);
+  color: var(--accent);
+}
+
+.filter-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 18px;
+  border: 1px solid var(--border-subtle);
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  border-radius: 0;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.filter-pill:hover {
+  color: var(--text-secondary);
+  border-color: rgba(201, 169, 110, 0.3);
+}
+
+.filter-pill.active {
+  background: rgba(201, 169, 110, 0.08);
+  border-color: rgba(201, 169, 110, 0.45);
+  color: var(--accent);
+}
+
+/* ======================================== */
+/* HEADER RESPONSIVE BREAKPOINTS            */
+/* ======================================== */
+
+/* Tablet / Mobile: hide desktop nav, show hamburger */
+@media (max-width: 768px) {
+  .desktop-nav {
+    display: none !important;
+  }
+
+  .mobile-nav-toggle {
+    display: flex !important;
+  }
+}
+
+/* Desktop: always hide mobile toggle */
+@media (min-width: 769px) {
+  .mobile-nav-toggle {
+    display: none !important;
+  }
+
+  .mobile-nav-overlay {
+    display: none !important;
+  }
+}
+
+/* ======================================== */
+/* CONTACT PAGE - SOCIAL LINKS MOBILE FIX   */
+/* ======================================== */
+@media (max-width: 600px) {
+  /* Social link buttons — wrap on small screens */
+  .contact-social-wrap {
+    flex-wrap: wrap !important;
+  }
+}
+
+/* ======================================== */
+/* GLOBAL MOBILE OVERFLOW GUARD             */
+/* ======================================== */
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+/* ======================================== */
+/* CONTAINER PADDING ON MOBILE              */
+/* ======================================== */
+@media (max-width: 480px) {
+  .container-xl {
+    padding-left: clamp(16px, 5vw, 24px) !important;
+    padding-right: clamp(16px, 5vw, 24px) !important;
+  }
+
+  .section-padding {
+    padding: 48px 0 !important;
+  }
+
+  /* FAQ section */
+  .faq-question {
+    font-size: 14px !important;
+  }
+
+  /* Contact info row values — allow wrapping */
+  .contact-row-value {
+    max-width: 55% !important;
+    font-size: 13px !important;
+  }
+
+  /* Stats grid — tighter on very small screens */
+  .stats-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 20px 12px !important;
+  }
+}
+
+/* ======================================== */
+/* SKILLS GRID — single column on mobile    */
+/* ======================================== */
+@media (max-width: 640px) {
+  .skills-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .tools-grid {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)) !important;
+  }
+}
+
+/* ======================================== */
+/* HERO MIN-HEIGHT FIX ON MOBILE            */
+/* ======================================== */
+@media (max-width: 768px) {
+  /* Home hero — no need for 92vh on mobile */
+  section[style*="92vh"] {
+    min-height: auto !important;
+  }
+
+  /* Profile card on mobile — full width, reasonable max */
+  .tilt-card {
+    max-width: 360px !important;
+  }
+
+  /* Experience timeline — remove left margin crowding */
+  .timeline-dot {
+    margin-right: 16px !important;
+  }
+}
+
+/* ======================================== */
+/* FILTER / SKILL TABS — scrollable row     */
+/* ======================================== */
+@media (max-width: 520px) {
+  /* Scroll horizontally rather than wrapping to multiple rows */
+  .filter-scroll {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 8px;
+    padding-bottom: 4px;
+  }
+
+  .filter-scroll::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ======================================== */
+/* CTA SECTION — button stack on mobile     */
+/* ======================================== */
+@media (max-width: 480px) {
+  /* Stack CTA buttons vertically */
+  .cta-buttons {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  .btn-primary,
+  .btn-outline {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ======================================== */
+/* MOBILE NAV LINK SIZING                   */
+/* ======================================== */
+@media (max-width: 380px) {
+  .mobile-nav-link {
+    font-size: 1.75rem !important;
+  }
+}
+
+

@@ -310,9 +310,9 @@ function Projects() {
       </section>
 
       {/* ═══ PROJECTS GRID ═══ */}
-      <section style={{ padding: '0 0 80px', position: 'relative' }}>
+      <section style={{ padding: '0 0 60px', position: 'relative' }}>
         <div className="container-xl">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 1 }}>
+          <div className="projects-grid">
             {filtered.map((project, i) => (
               <ScrollReveal key={project.id} className="reveal" delay={`delay-${(i % 3) * 100}`}>
                 <ProjectCard project={project} index={i} />
@@ -329,26 +329,27 @@ function Projects() {
       </section>
 
       {/* ═══ PROCESS ═══ */}
-      <section style={{ padding: '80px 0 100px', position: 'relative' }}>
+      <section style={{ padding: '60px 0 100px', position: 'relative' }}>
         <div className="container-xl">
-          <ScrollReveal className="reveal" style={{ marginBottom: 56 }}>
+          <ScrollReveal className="reveal" style={{ marginBottom: 48 }}>
             <div className="section-num">— Process</div>
             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', fontWeight: 500, letterSpacing: '-0.02em', color: 'var(--text-primary)', margin: 0 }}>
               How I work
             </h2>
           </ScrollReveal>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 1 }}>
+          <div className="process-grid">
             {processSteps.map((step, i) => (
               <ScrollReveal key={step.step} className="reveal" delay={`delay-${i * 100}`}>
                 <div style={{
-                  padding: '36px 28px',
+                  padding: 'clamp(24px, 4vw, 36px) clamp(20px, 3vw, 28px)',
                   background: '#0a0a0a',
                   border: '1px solid var(--border-subtle)',
                   position: 'relative',
                   overflow: 'hidden',
-                  minHeight: 220,
+                  minHeight: 200,
                   transition: 'background 0.3s ease, border-color 0.3s ease',
+                  height: '100%',
                 }}
                   onMouseEnter={(e) => { e.currentTarget.style.background = '#111'; e.currentTarget.style.borderColor = 'rgba(201,169,110,0.2)' }}
                   onMouseLeave={(e) => { e.currentTarget.style.background = '#0a0a0a'; e.currentTarget.style.borderColor = 'var(--border-subtle)' }}
@@ -356,19 +357,19 @@ function Projects() {
                   {/* Watermark number */}
                   <div style={{
                     position: 'absolute', top: 16, right: 20,
-                    fontFamily: 'var(--font-display)', fontSize: '5rem', fontWeight: 600,
+                    fontFamily: 'var(--font-display)', fontSize: 'clamp(3.5rem, 6vw, 5rem)', fontWeight: 600,
                     color: 'rgba(201,169,110,0.04)', lineHeight: 1, userSelect: 'none',
                   }}>
                     {step.num}
                   </div>
                   <div style={{
                     fontFamily: 'var(--font-mono)', fontSize: '11px',
-                    color: 'var(--accent)', marginBottom: 16, letterSpacing: '0.1em',
+                    color: 'var(--accent)', marginBottom: 14, letterSpacing: '0.1em',
                     textTransform: 'uppercase',
                   }}>
                     Step {step.step}
                   </div>
-                  <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.3rem', fontWeight: 500, marginBottom: 12, color: 'var(--text-primary)' }}>
+                  <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', fontWeight: 500, marginBottom: 10, color: 'var(--text-primary)' }}>
                     {step.title}
                   </h3>
                   <p style={{ color: 'var(--text-secondary)', fontSize: '13px', lineHeight: 1.8 }}>
