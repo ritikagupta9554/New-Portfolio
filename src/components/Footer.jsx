@@ -12,7 +12,7 @@ function Footer() {
     { name: 'Website', href: 'https://www.guptaritika.in/' },
     { name: 'LinkedIn', href: 'https://www.linkedin.com/in/ritika-gupta-523597220' },
     { name: 'GitHub', href: 'https://github.com/ritikagupta9554' },
-     { name: 'Email', href: 'mailto:guptaritika569@gmail.com' },
+     { name: 'Email', href: 'mailto:codewithritika.dev@gmail.com' },
   ]
 
   return (
@@ -112,21 +112,14 @@ function Footer() {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               <a
-                href="mailto:guptaritika569@gmail.com"
+                href="mailto:codewithritika.dev@gmail.com"
                 style={{ color: 'var(--text-muted)', fontSize: '13px', textDecoration: 'none', transition: 'color 0.2s ease', cursor: 'pointer', wordBreak: 'break-all' }}
                 onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--accent)' }}
                 onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-muted)' }}
               >
-                guptaritika569@gmail.com
+                codewithritika.dev@gmail.com
               </a>
-              <a
-                href="tel:+919554929098"
-                style={{ color: 'var(--text-muted)', fontSize: '13px', textDecoration: 'none', transition: 'color 0.2s ease', cursor: 'pointer' }}
-                onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--accent)' }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-muted)' }}
-              >
-                +91 9554929098
-              </a>
+             
               <span style={{ color: 'var(--text-muted)', fontSize: '13px' }}>Noida, India</span>
             </div>
           </div>

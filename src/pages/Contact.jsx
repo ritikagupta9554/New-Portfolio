@@ -63,7 +63,7 @@ function Contact() {
       setTimeout(() => setSubmitted(false), 6000)
     } catch (err) {
       console.error('EmailJS error:', err)
-      setError('Something went wrong. Email me directly at guptaritika569@gmail.com')
+      setError('Something went wrong. Email me directly at codewithritika.dev@gmail.com')
     } finally {
       setSending(false)
     }
@@ -127,7 +127,7 @@ function Contact() {
 
             {/* Big hero email link with word-break and clamp */}
             <a
-              href="mailto:guptaritika569@gmail.com"
+              href="mailto:codewithritika.dev@gmail.com"
               className="contact-hero-email"
               onMouseEnter={(e) => {
                 e.currentTarget.style.color = '#e8c992'
@@ -138,7 +138,7 @@ function Contact() {
                 e.currentTarget.style.borderColor = 'rgba(201,169,110,0.25)'
               }}
             >
-              guptaritika569@gmail.com
+              codewithritika.dev@gmail.com
             </a>
 
             <p style={{
@@ -183,8 +183,8 @@ function Contact() {
               {/* Contact rows — clean table style */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: 0, marginBottom: 48 }}>
                 {[
-                  { label: 'Email', value: 'guptaritika569@gmail.com', href: 'mailto:guptaritika569@gmail.com' },
-                  { label: 'Phone', value: '+91 9554929098', href: 'tel:+919554929098' },
+                  { label: 'Email', value: 'codewithritika.dev@gmail.com', href: 'mailto:codewithritika.dev@gmail.com' },
+                  // { label: 'Phone', value: '+91 9554929098', href: 'tel:+919554929098' },
                   { label: 'Location', value: 'Noida, UP, India — Remote available', href: null },
                 ].map(({ label, value, href }) => {
                   const Wrapper = href ? 'a' : 'div'
@@ -225,7 +225,7 @@ function Contact() {
                     { name: 'Website', href: 'https://www.guptaritika.in/' },
                     { name: 'LinkedIn', href: 'https://www.linkedin.com/in/ritika-gupta-523597220' },
                     { name: 'GitHub', href: 'https://github.com/ritikagupta9554' },
-                    { name: 'Email', href: 'mailto:guptaritika569@gmail.com' },
+                    { name: 'Email', href: 'mailto:codewithritika.dev@gmail.com' },
                   ].map(({ name, href }) => (
                     <a
                       key={name}
